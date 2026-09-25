@@ -1,0 +1,2111 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <title>Nura Health — Nature is the Algorithm</title>
+  <meta name="description" content="Nura Health is a precision longevity clinic. We read your biology continuously and write a living protocol around it." />
+  <meta name="theme-color" content="#0E120F" />
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin />
+  <link rel="preconnect" href="https://images.unsplash.com" />
+  <link rel="preload" as="image" href="https://images.unsplash.com/photo-1470115636492-6d2b56f9146d?auto=format&fit=crop&w=2400&q=80" />
+  <!-- Fonts load without blocking first paint, so the boot curtain shows immediately; the app waits for them. -->
+  <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;1,300;1,400;1,500&family=IBM+Plex+Mono:wght@400;500&family=Outfit:wght@300;400;500;600&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" />
+  <link id="nura-fonts" rel="stylesheet" media="print" onload="this.media='all';window.__nuraFonts=true" onerror="window.__nuraFonts=true" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;1,300;1,400;1,500&family=IBM+Plex+Mono:wght@400;500&family=Outfit:wght@300;400;500;600&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" />
+  <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;1,300;1,400;1,500&family=IBM+Plex+Mono:wght@400;500&family=Outfit:wght@300;400;500;600&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" /></noscript>
+
+  <!-- Design tokens, consumed by the Tailwind CSS v4 browser build loaded at the end of <body>. -->
+  <style type="text/tailwindcss">
+    @theme {
+      --color-moss: #2E4036;
+      --color-clay: #CC5833;
+      --color-cream: #F2F0E9;
+      --color-charcoal: #1A1A1A;
+
+      --font-sans: "Outfit", ui-sans-serif, system-ui, sans-serif;
+      --font-outfit: "Outfit", ui-sans-serif, system-ui, sans-serif;
+      --font-jakarta: "Plus Jakarta Sans", ui-sans-serif, system-ui, sans-serif;
+      --font-serif: "Cormorant Garamond", ui-serif, Georgia, serif;
+      --font-mono: "IBM Plex Mono", ui-monospace, SFMono-Regular, Menlo, monospace;
+
+      --ease-spring: cubic-bezier(0.34, 1.56, 0.64, 1);
+      --ease-silk: cubic-bezier(0.16, 1, 0.3, 1);
+      --ease-magnetic: cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    }
+  </style>
+
+  <style>
+    html { -webkit-text-size-adjust: 100%; }
+    body {
+      margin: 0;
+      background: #F2F0E9;
+      color: #1A1A1A;
+      font-family: "Outfit", ui-sans-serif, system-ui, sans-serif;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+      text-rendering: optimizeLegibility;
+    }
+    ::selection { background: #CC5833; color: #F2F0E9; }
+
+    /* `clip` (not `hidden`) so position: sticky keeps working inside the page. */
+    .page { overflow-x: clip; }
+
+    /* Global grain: SVG turbulence at 5% kills flat digital gradients. */
+    .noise {
+      position: fixed;
+      inset: 0;
+      z-index: 300;
+      pointer-events: none;
+      opacity: 0.05;
+      background-size: 240px 240px;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='240' height='240'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.82' numOctaves='4' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+    }
+
+    /* Boot curtain: pure CSS so it paints while the libraries download. */
+    #boot {
+      position: fixed;
+      inset: 0;
+      z-index: 200;
+      display: grid;
+      place-items: center;
+      background: #0E120F;
+      color: #F2F0E9;
+      font-family: "IBM Plex Mono", ui-monospace, monospace;
+      will-change: transform;
+    }
+    #boot .boot-inner { display: flex; flex-direction: column; align-items: center; gap: 22px; }
+    #boot .boot-mark { width: 56px; height: 56px; }
+    #boot .boot-ring { transform-box: fill-box; transform-origin: center; animation: nura-spin 9s linear infinite; }
+    #boot .boot-word { font-size: 11px; letter-spacing: 0.52em; margin-right: -0.52em; text-transform: uppercase; opacity: 0.85; }
+    #boot .boot-word span { color: #CC5833; margin: 0 0.3em; }
+    #boot .boot-bar { width: 176px; height: 1px; background: rgba(242, 240, 233, 0.14); overflow: hidden; }
+    #boot .boot-bar i { display: block; height: 100%; background: #CC5833; transform-origin: left center; animation: nura-boot 2.6s cubic-bezier(0.16, 1, 0.3, 1) forwards; }
+    #boot .boot-status { font-size: 10px; letter-spacing: 0.3em; text-transform: uppercase; color: rgba(242, 240, 233, 0.42); }
+
+    /* Sticky protocol cards: svh keeps the card fully visible under mobile browser chrome. */
+    .stack-card { height: 100vh; height: 100svh; }
+
+    /* Split-text masks (padding keeps italic overhangs and descenders from clipping). */
+    .split-mask { display: inline-block; overflow: hidden; vertical-align: top; padding: 0.1em 0.12em 0.16em; margin: -0.1em -0.12em -0.16em; }
+    .split-word { display: inline-block; will-change: transform; }
+
+    .nav-link::after {
+      content: "";
+      position: absolute;
+      left: 0;
+      right: 0;
+      bottom: -5px;
+      height: 1px;
+      background: currentColor;
+      transform: scaleX(0);
+      transform-origin: right center;
+      transition: transform 0.55s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    .nav-link:hover::after { transform: scaleX(1); transform-origin: left center; }
+
+    .cursor-blink { animation: nura-blink 1.05s steps(1) infinite; }
+    .ticker-track { animation: nura-ticker 80s linear infinite; }
+    .eq-bar { transform-origin: 50% 100%; animation: nura-eq 1.6s ease-in-out infinite; }
+
+    @keyframes nura-spin { to { transform: rotate(360deg); } }
+    @keyframes nura-boot { from { transform: scaleX(0); } to { transform: scaleX(0.88); } }
+    @keyframes nura-blink { 0%, 49% { opacity: 1; } 50%, 100% { opacity: 0; } }
+    @keyframes nura-ticker { from { transform: translate3d(0, 0, 0); } to { transform: translate3d(-50%, 0, 0); } }
+    @keyframes nura-eq { 0%, 100% { transform: scaleY(0.22); } 50% { transform: scaleY(1); } }
+
+    @media (prefers-reduced-motion: reduce) {
+      .ticker-track, .eq-bar, .cursor-blink, #boot .boot-ring { animation: none !important; }
+    }
+  </style>
+</head>
+<body>
+  <div id="boot" aria-hidden="true">
+    <div class="boot-inner">
+      <svg class="boot-mark" viewBox="0 0 64 64" fill="none">
+        <circle class="boot-ring" cx="32" cy="32" r="30" stroke="currentColor" stroke-opacity="0.35" stroke-dasharray="2 5" />
+        <circle cx="32" cy="32" r="21" stroke="currentColor" stroke-width="1.5" />
+        <path d="M32 17c6.2 4.6 6.2 25.4 0 30-6.2-4.6-6.2-25.4 0-30Z" stroke="currentColor" stroke-width="1.5" />
+        <circle cx="32" cy="32" r="3" fill="#CC5833" />
+      </svg>
+      <div class="boot-word">Nura<span>/</span>Health</div>
+      <div class="boot-bar"><i></i></div>
+      <div class="boot-status">Calibrating biological telemetry</div>
+    </div>
+  </div>
+
+  <div class="noise" aria-hidden="true"></div>
+  <div id="root"></div>
+  <noscript>Nura Health needs JavaScript enabled to render this page.</noscript>
+
+  <script>
+    window.setTimeout(function () {
+      if (window.__nuraReady) return;
+      var status = document.querySelector('#boot .boot-status');
+      if (status) status.textContent = 'Still calibrating - slow connection?';
+    }, 12000);
+  </script>
+
+  <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4.3.3/dist/index.global.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/react@18.3.1/umd/react.production.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/react-dom@18.3.1/umd/react-dom.production.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/gsap@3.15.0/dist/gsap.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/gsap@3.15.0/dist/ScrollTrigger.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@babel/standalone@7.29.9/babel.min.js"></script>
+
+  <script type="text/babel" data-presets="react">
+    const { useState, useEffect, useLayoutEffect, useRef, useMemo, Fragment } = React;
+    gsap.registerPlugin(ScrollTrigger);
+
+    /* ======================================================================
+       Tokens and runtime flags
+       ====================================================================== */
+    const MOSS = '#2E4036';
+    const CLAY = '#CC5833';
+    const CREAM = '#F2F0E9';
+    const CHARCOAL = '#1A1A1A';
+    const SPRING = 'cubic-bezier(0.34, 1.56, 0.64, 1)';
+    const TAU = Math.PI * 2;
+    const HERO_IMAGE = 'https://images.unsplash.com/photo-1470115636492-6d2b56f9146d?auto=format&fit=crop&w=2400&q=80';
+    const TEXTURE_IMAGE = 'https://images.unsplash.com/photo-1542601906990-b4d3fb778b09?auto=format&fit=crop&w=2000&q=80';
+    const REDUCED_MOTION = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+    if ('scrollRestoration' in history) history.scrollRestoration = 'manual';
+
+    // The curtain lifts once the type system is loaded (or after 3s, whichever comes first).
+    const FONT_PROBES = [
+      '700 1em "Plus Jakarta Sans"',
+      'italic 400 1em "Cormorant Garamond"',
+      '400 1em "Outfit"',
+      '400 1em "IBM Plex Mono"',
+    ];
+    const fontSheetReady = new Promise((resolve) => {
+      const link = document.getElementById('nura-fonts');
+      if (window.__nuraFonts || !link) return resolve();
+      link.addEventListener('load', resolve, { once: true });
+      link.addEventListener('error', resolve, { once: true });
+    });
+    const bootReady = new Promise((resolve) => {
+      const fonts = fontSheetReady.then(() => (document.fonts && document.fonts.load
+        ? Promise.all(FONT_PROBES.map((font) => document.fonts.load(font)))
+        : null));
+      Promise.race([fonts, new Promise((r) => setTimeout(r, 3000))]).then(resolve, resolve);
+    });
+    // Scroll-driven animations are created two frames later, once Tailwind has styled the tree.
+    const stageReady = bootReady.then(
+      () => new Promise((resolve) => requestAnimationFrame(() => requestAnimationFrame(resolve)))
+    );
+
+    /* ======================================================================
+       Utilities and hooks
+       ====================================================================== */
+    const clamp = (value, lo, hi) => Math.min(hi, Math.max(lo, value));
+    const pad2 = (n) => String(n).padStart(2, '0');
+    const clockStamp = () => {
+      const d = new Date();
+      return `${pad2(d.getHours())}:${pad2(d.getMinutes())}:${pad2(d.getSeconds())}`;
+    };
+    const seeded = (seed) => () => {
+      seed = (seed + 0x6d2b79f5) | 0;
+      let t = Math.imul(seed ^ (seed >>> 15), 1 | seed);
+      t = (t + Math.imul(t ^ (t >>> 7), 61 | t)) ^ t;
+      return ((t ^ (t >>> 14)) >>> 0) / 4294967296;
+    };
+    // Layout-space centre of `el` relative to a positioned ancestor (ignores in-flight transforms).
+    const centerWithin = (el, container) => {
+      let x = el.offsetWidth / 2;
+      let y = el.offsetHeight / 2;
+      let node = el;
+      while (node && node !== container) {
+        x += node.offsetLeft;
+        y += node.offsetTop;
+        node = node.offsetParent;
+      }
+      return { x, y };
+    };
+
+    // Runs `callback(time, deltaMs)` on GSAP's ticker while `active` is true.
+    function useTicker(callback, active) {
+      const saved = useRef(callback);
+      saved.current = callback;
+      useEffect(() => {
+        if (!active) return undefined;
+        const tick = (time, deltaTime) => saved.current(time, Math.min(deltaTime, 50));
+        gsap.ticker.add(tick);
+        return () => gsap.ticker.remove(tick);
+      }, [active]);
+    }
+
+    function useInView(ref, threshold = 0.25) {
+      const [inView, setInView] = useState(false);
+      useEffect(() => {
+        const el = ref.current;
+        if (!el || !('IntersectionObserver' in window)) {
+          setInView(true);
+          return undefined;
+        }
+        const io = new IntersectionObserver(([entry]) => setInView(entry.isIntersecting), { threshold });
+        io.observe(el);
+        return () => io.disconnect();
+      }, [threshold]);
+      return inView;
+    }
+
+    /* ======================================================================
+       Icons (inline, dependency-free)
+       ====================================================================== */
+    const Icon = ({ children, className = 'h-4 w-4', strokeWidth = 1.6 }) => (
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={strokeWidth} strokeLinecap="round" strokeLinejoin="round" className={className} aria-hidden="true">
+        {children}
+      </svg>
+    );
+    const ArrowUpRightIcon = (props) => (
+      <Icon {...props}><path d="M7 17 17 7" /><path d="M8.5 7H17v8.5" /></Icon>
+    );
+    const CheckIcon = (props) => (
+      <Icon {...props}><path d="m4.5 12.5 4.8 4.8L19.5 7" /></Icon>
+    );
+    const ScanIcon = (props) => (
+      <Icon {...props}>
+        <path d="M4 8V6a2 2 0 0 1 2-2h2M16 4h2a2 2 0 0 1 2 2v2M20 16v2a2 2 0 0 1-2 2h-2M8 20H6a2 2 0 0 1-2-2v-2" />
+        <path d="M7.5 12h9" />
+      </Icon>
+    );
+    const SignalIcon = (props) => (
+      <Icon {...props}>
+        <circle cx="12" cy="12" r="1.6" />
+        <path d="M8.3 8.3a5.2 5.2 0 0 0 0 7.4M15.7 8.3a5.2 5.2 0 0 1 0 7.4M5.4 5.4a9.3 9.3 0 0 0 0 13.2M18.6 5.4a9.3 9.3 0 0 1 0 13.2" />
+      </Icon>
+    );
+    const CalendarIcon = (props) => (
+      <Icon {...props}>
+        <rect x="3.5" y="5" width="17" height="15.5" rx="3.5" />
+        <path d="M3.5 10h17M8 3v4M16 3v4" />
+      </Icon>
+    );
+    const HeartIcon = (props) => (
+      <Icon {...props}><path d="M12 20s-7.5-4.6-7.5-10.2A4.3 4.3 0 0 1 12 7.4a4.3 4.3 0 0 1 7.5 2.4C19.5 15.4 12 20 12 20Z" /></Icon>
+    );
+    const MenuIcon = (props) => (
+      <Icon {...props}><path d="M4 9h16M4 15h16" /></Icon>
+    );
+    const CloseIcon = (props) => (
+      <Icon {...props}><path d="M6 6l12 12M18 6 6 18" /></Icon>
+    );
+    const LogoMark = ({ className = 'h-7 w-7' }) => (
+      <svg viewBox="0 0 32 32" fill="none" className={className} aria-hidden="true">
+        <circle cx="16" cy="16" r="14.5" stroke="currentColor" strokeWidth="1.5" />
+        <path d="M16 6.5c4.6 3.4 4.6 15.6 0 19-4.6-3.4-4.6-15.6 0-19Z" stroke="currentColor" strokeWidth="1.5" />
+        <circle cx="16" cy="16" r="2.2" fill={CLAY} />
+      </svg>
+    );
+
+    /* ======================================================================
+       Primitives
+       ====================================================================== */
+    const Serif = ({ children, className = '' }) => (
+      <span className={`font-serif font-normal italic tracking-[-0.01em] ${className}`} style={{ fontSize: '1.14em', lineHeight: 0.9 }}>
+        {children}
+      </span>
+    );
+
+    const Eyebrow = ({ index, children, tone = 'light' }) => (
+      <p className={`flex items-center gap-3 font-mono text-[11px] uppercase tracking-[0.26em] ${tone === 'dark' ? 'text-cream/55' : 'text-moss/70'}`}>
+        <span className="text-clay">{index}</span>
+        <span className={`h-px w-10 ${tone === 'dark' ? 'bg-cream/25' : 'bg-moss/25'}`} />
+        <span>{children}</span>
+      </p>
+    );
+
+    const PulseDot = ({ color = 'bg-clay' }) => (
+      <span className="relative inline-flex h-2 w-2 shrink-0">
+        <span className={`absolute inline-flex h-full w-full animate-ping rounded-full opacity-70 ${color}`} />
+        <span className={`relative inline-flex h-2 w-2 rounded-full ${color}`} />
+      </span>
+    );
+
+    // Splits copy into masked words for GSAP reveals. `words` may hold nodes for mixed styling.
+    function SplitWords({ text, words, className = '', wordClassName = '' }) {
+      const list = words || text.split(' ');
+      return (
+        <span className={className}>
+          {list.map((word, i) => (
+            <Fragment key={i}>
+              <span className="split-mask"><span className={`split-word ${wordClassName}`}>{word}</span></span>
+              {i < list.length - 1 ? ' ' : null}
+            </Fragment>
+          ))}
+        </span>
+      );
+    }
+
+    const BTN_VARIANTS = {
+      clay: { base: 'bg-clay text-cream', fill: 'bg-charcoal', hoverText: '', chip: 'bg-cream/15' },
+      outline: { base: 'border border-charcoal/15 bg-transparent text-charcoal', fill: 'bg-charcoal', hoverText: 'group-hover:text-cream', chip: 'bg-charcoal/[0.06] group-hover:bg-cream/15' },
+      glass: { base: 'border border-white/20 bg-white/[0.07] text-white backdrop-blur-md', fill: 'bg-cream', hoverText: 'group-hover:text-charcoal', chip: 'bg-white/10' },
+    };
+    const BTN_SIZES = {
+      sm: { pad: 'gap-2.5 py-1.5 pl-4 pr-1.5 text-[13.5px]', plain: 'px-4 py-2.5 text-[13.5px]', chip: 'h-7 w-7' },
+      md: { pad: 'gap-3 py-2 pl-6 pr-2 text-[15px]', plain: 'px-7 py-3.5 text-[15px]', chip: 'h-9 w-9' },
+    };
+
+    // Pill button: magnetic scale on hover plus a fill layer that slides up from below.
+    function MagneticButton({ href, type = 'button', variant = 'clay', size = 'md', icon = true, full = false, disabled, children }) {
+      const v = BTN_VARIANTS[variant];
+      const s = BTN_SIZES[size];
+      const Tag = href ? 'a' : 'button';
+      const tagProps = href ? { href } : { type, disabled };
+      return (
+        <Tag
+          {...tagProps}
+          className={`group relative isolate inline-flex cursor-pointer items-center overflow-hidden rounded-full font-sans font-medium tracking-[-0.01em] transition-transform duration-500 ease-magnetic hover:scale-[1.03] active:scale-[0.98] focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-clay ${icon ? s.pad : s.plain} ${full ? 'w-full justify-between' : 'justify-center'} ${v.base}`}
+        >
+          <span aria-hidden="true" className={`absolute inset-0 -z-10 translate-y-[102%] rounded-full transition-transform duration-[650ms] ease-silk group-hover:translate-y-0 ${v.fill}`} />
+          <span className={`whitespace-nowrap transition-colors duration-500 ${v.hoverText}`}>{children}</span>
+          {icon && (
+            <span className={`grid shrink-0 place-items-center rounded-full transition-colors duration-500 ${s.chip} ${v.chip}`}>
+              <ArrowUpRightIcon className={`h-3.5 w-3.5 transition-transform duration-500 ease-silk group-hover:rotate-45 ${v.hoverText}`} />
+            </span>
+          )}
+        </Tag>
+      );
+    }
+
+    /* ======================================================================
+       A. Navbar: the floating island
+       ====================================================================== */
+    const NAV_LINKS = [
+      { label: 'System', href: '#system' },
+      { label: 'Philosophy', href: '#philosophy' },
+      { label: 'Protocol', href: '#protocol' },
+      { label: 'Membership', href: '#membership' },
+    ];
+
+    function Navbar() {
+      const [scrolled, setScrolled] = useState(false);
+      const [open, setOpen] = useState(false);
+
+      useEffect(() => {
+        const onScroll = () => setScrolled(window.scrollY > 40);
+        onScroll();
+        window.addEventListener('scroll', onScroll, { passive: true });
+        return () => window.removeEventListener('scroll', onScroll);
+      }, []);
+
+      const solid = scrolled || open;
+      return (
+        <header className="nav-shell pointer-events-none fixed inset-x-0 top-4 z-50 flex justify-center px-4 md:top-6">
+          <div className="pointer-events-auto relative">
+            <nav
+              aria-label="Primary"
+              className={`flex items-center gap-2 rounded-full border py-2 pl-5 pr-2 transition-[background-color,border-color,color,box-shadow,backdrop-filter] duration-700 ease-silk md:gap-10 md:pl-6 ${solid ? 'border-moss/10 bg-white/60 text-moss shadow-[0_14px_40px_-18px_rgba(46,64,54,0.4)] backdrop-blur-xl' : 'border-white/0 bg-white/0 text-white'}`}
+            >
+              <a href="#top" className="flex items-center gap-2.5 pr-1" aria-label="Nura Health, back to top">
+                <LogoMark className="h-7 w-7" />
+                <span className="font-jakarta text-[18px] font-bold tracking-[-0.04em]">Nura</span>
+                <span className="hidden font-mono text-[9.5px] uppercase tracking-[0.3em] opacity-60 sm:inline">Health</span>
+              </a>
+              <ul className="hidden items-center gap-8 md:flex">
+                {NAV_LINKS.map((link) => (
+                  <li key={link.href}>
+                    <a href={link.href} className="nav-link relative font-sans text-[14.5px] font-medium tracking-[-0.01em] opacity-80 transition-opacity duration-300 hover:opacity-100">
+                      {link.label}
+                    </a>
+                  </li>
+                ))}
+              </ul>
+              <div className="flex items-center gap-1.5">
+                <MagneticButton href="#membership" size="sm">Book Intake</MagneticButton>
+                <button
+                  type="button"
+                  onClick={() => setOpen((o) => !o)}
+                  aria-expanded={open}
+                  aria-controls="mobile-menu"
+                  aria-label={open ? 'Close menu' : 'Open menu'}
+                  className="grid h-10 w-10 cursor-pointer place-items-center rounded-full md:hidden"
+                >
+                  {open ? <CloseIcon className="h-5 w-5" /> : <MenuIcon className="h-5 w-5" />}
+                </button>
+              </div>
+            </nav>
+            <div
+              id="mobile-menu"
+              className={`absolute inset-x-0 top-[calc(100%+10px)] rounded-[2rem] border border-moss/10 bg-white/85 p-2 shadow-[0_24px_60px_-24px_rgba(46,64,54,0.45)] backdrop-blur-xl transition-[opacity,translate] duration-500 ease-silk md:hidden ${open ? 'translate-y-0 opacity-100' : 'pointer-events-none -translate-y-2 opacity-0'}`}
+            >
+              {NAV_LINKS.map((link) => (
+                <a
+                  key={link.href}
+                  href={link.href}
+                  tabIndex={open ? 0 : -1}
+                  onClick={() => setOpen(false)}
+                  className="flex items-center justify-between rounded-[1.5rem] px-5 py-3.5 font-sans text-[16px] font-medium text-moss transition-colors hover:bg-moss/5"
+                >
+                  {link.label}
+                  <ArrowUpRightIcon className="h-4 w-4 opacity-50" />
+                </a>
+              ))}
+            </div>
+          </div>
+        </header>
+      );
+    }
+
+    /* ======================================================================
+       B. Hero: Nature is the Algorithm
+       ====================================================================== */
+    const TELEMETRY = [
+      { key: 'hrv', label: 'HRV rMSSD', value: 68, unit: 'ms', min: 63, max: 74, step: 2, digits: 0 },
+      { key: 'rhr', label: 'Resting HR', value: 52, unit: 'bpm', min: 49, max: 55, step: 1, digits: 0 },
+      { key: 'vo2', label: 'VO2 max', value: 51.4, unit: 'ml/kg', min: 50.9, max: 52.1, step: 0.2, digits: 1 },
+      { key: 'bio', label: 'Biological age', value: 31.8, unit: 'yrs', min: 31.6, max: 32.0, step: 0.1, digits: 1 },
+    ];
+
+    function HeroTelemetry() {
+      const [values, setValues] = useState(() => TELEMETRY.map((t) => t.value));
+      useEffect(() => {
+        if (REDUCED_MOTION) return undefined;
+        const id = setInterval(() => {
+          setValues((prev) => prev.map((v, i) => {
+            const t = TELEMETRY[i];
+            return clamp(v + (Math.random() - 0.5) * 2 * t.step, t.min, t.max);
+          }));
+        }, 2000);
+        return () => clearInterval(id);
+      }, []);
+
+      return (
+        <div className="rounded-[2rem] border border-white/10 bg-white/[0.05] p-6 backdrop-blur-md">
+          <div className="flex items-center justify-between font-mono text-[10px] uppercase tracking-[0.24em] text-white/55">
+            <span className="flex items-center gap-2.5"><PulseDot /> Live telemetry</span>
+            <span className="text-white/30">ID 2E40</span>
+          </div>
+          <dl className="mt-6 space-y-3.5">
+            {TELEMETRY.map((t, i) => (
+              <div key={t.key} className="flex items-baseline justify-between border-b border-white/10 pb-3.5 last:border-0 last:pb-0">
+                <dt className="font-mono text-[10px] uppercase tracking-[0.2em] text-white/45">{t.label}</dt>
+                <dd className="font-mono text-[13px] tabular-nums text-white">
+                  {values[i].toFixed(t.digits)} <span className="text-white/40">{t.unit}</span>
+                </dd>
+              </div>
+            ))}
+          </dl>
+        </div>
+      );
+    }
+
+    function Hero() {
+      const root = useRef(null);
+
+      useLayoutEffect(() => {
+        const boot = document.getElementById('boot');
+        const nav = document.querySelector('.nav-shell');
+        let alive = true;
+
+        const ctx = gsap.context(() => {
+          if (REDUCED_MOTION) return;
+          gsap.set('.hero-reveal', { y: 64, opacity: 0, filter: 'blur(12px)' });
+          gsap.set('.hero-img', { scale: 1.24 });
+          gsap.set(nav, { y: -28, opacity: 0 });
+        }, root);
+
+        bootReady.then(() => {
+          if (!alive) return;
+          window.__nuraReady = true;
+          ctx.add(() => {
+            const intro = gsap.timeline({ defaults: { ease: 'expo.out' } });
+            if (boot) {
+              intro
+                .to(boot.querySelector('.boot-inner'), { opacity: 0, y: -14, duration: 0.45, ease: 'power2.in' })
+                .to(boot, REDUCED_MOTION ? { opacity: 0, duration: 0.3 } : { yPercent: -100, duration: 1.15, ease: 'expo.inOut' }, '-=0.05')
+                .set(boot, { display: 'none' });
+            }
+            if (!REDUCED_MOTION) {
+              intro
+                .to('.hero-img', { scale: 1.06, duration: 2.8 }, boot ? 0.6 : 0)
+                .to('.hero-reveal', { y: 0, opacity: 1, filter: 'blur(0px)', duration: 1.5, stagger: 0.1 }, boot ? 1.0 : 0.1)
+                .to(nav, { y: 0, opacity: 1, duration: 1.2 }, '<0.35');
+            }
+          });
+        });
+
+        stageReady.then(() => {
+          if (!alive || REDUCED_MOTION) return;
+          ctx.add(() => {
+            const scrub = { trigger: root.current, start: 'top top', end: 'bottom top', scrub: true };
+            gsap.to('.hero-media', { yPercent: 14, ease: 'none', scrollTrigger: scrub });
+            gsap.to('.hero-content', { y: -110, opacity: 0.08, ease: 'none', scrollTrigger: { ...scrub } });
+          });
+        });
+
+        return () => {
+          alive = false;
+          ctx.revert();
+        };
+      }, []);
+
+      return (
+        <section id="top" ref={root} className="relative h-[100dvh] min-h-[640px] w-full overflow-hidden bg-[#0C110E] text-white">
+          <div className="hero-media absolute inset-x-0 -top-[6%] h-[112%]" aria-hidden="true">
+            <img
+              className="hero-img h-full w-full object-cover"
+              src={HERO_IMAGE}
+              alt=""
+              fetchpriority="high"
+              onError={(e) => { e.currentTarget.style.visibility = 'hidden'; }}
+            />
+          </div>
+          {/* Heavy moss-to-black grade */}
+          <div className="absolute inset-0" aria-hidden="true" style={{ background: 'linear-gradient(180deg, rgba(46,64,54,0.55) 0%, rgba(46,64,54,0.74) 34%, rgba(18,25,21,0.92) 70%, #090C0A 100%)' }} />
+          <div className="absolute inset-0 mix-blend-multiply" aria-hidden="true" style={{ background: 'radial-gradient(130% 90% at 100% 0%, rgba(46,64,54,0.25) 0%, rgba(6,8,7,0.8) 100%)' }} />
+          <div className="absolute inset-x-0 top-0 h-48" aria-hidden="true" style={{ background: 'linear-gradient(180deg, rgba(6,8,7,0.55), transparent)' }} />
+
+          <div className="hero-content relative z-10 flex h-full flex-col justify-end px-6 pb-12 sm:px-10 md:px-14 md:pb-16 lg:px-20 lg:pb-20">
+            <div className="grid items-end gap-12 lg:grid-cols-12">
+              <div className="lg:col-span-9">
+                <p className="hero-reveal flex items-center gap-3 font-mono text-[10.5px] uppercase tracking-[0.3em] text-white/60">
+                  <span className="h-1.5 w-1.5 rounded-full bg-clay" />
+                  Clinical Longevity Lab
+                  <span className="hidden h-px w-10 bg-white/25 sm:block" />
+                  <span className="hidden sm:inline">Est. 2021</span>
+                </p>
+                <h1 className="mt-7">
+                  <span className="hero-reveal block font-jakarta font-bold leading-[0.95] tracking-[-0.045em]" style={{ fontSize: 'clamp(2.3rem, 5.4vw, 5.2rem)' }}>
+                    Nature is the
+                  </span>
+                  <span className="hero-reveal -ml-[0.03em] block pb-[0.06em] font-serif font-normal italic leading-[0.8] tracking-[-0.03em] text-cream" style={{ fontSize: 'clamp(4.9rem, 15vw, 15rem)' }}>
+                    Algorithm<span className="text-clay">.</span>
+                  </span>
+                </h1>
+                <div className="mt-8 flex flex-col gap-8 md:mt-10 md:flex-row md:items-end md:gap-12">
+                  <p className="hero-reveal max-w-[25rem] text-[15px] leading-[1.65] text-white/65 md:text-[16px]">
+                    Nura reads 142 biomarkers, your genome and your daily telemetry, then writes a living protocol that evolves as your biology does.
+                  </p>
+                  <div className="hero-reveal flex flex-wrap items-center gap-3">
+                    <MagneticButton href="#membership">Begin Assessment</MagneticButton>
+                    <MagneticButton href="#protocol" variant="glass" icon={false}>Explore Protocol</MagneticButton>
+                  </div>
+                </div>
+              </div>
+              <aside className="hero-reveal hidden lg:col-span-3 lg:block" aria-label="Sample member telemetry">
+                <HeroTelemetry />
+              </aside>
+            </div>
+          </div>
+        </section>
+      );
+    }
+
+    /* Biomarker ticker: a slow lab readout between hero and instrument */
+    const MARKERS = [
+      ['ApoB', '68 mg/dL'], ['hs-CRP', '0.4 mg/L'], ['HbA1c', '5.1%'], ['Lp(a)', '12 nmol/L'],
+      ['Omega-3 Index', '9.2%'], ['Homocysteine', '7.1 µmol/L'], ['Vitamin D', '58 ng/mL'],
+      ['Fasting Insulin', '3.8 µIU/mL'], ['Cortisol AM', '14.2 µg/dL'], ['Ferritin', '86 ng/mL'],
+      ['eGFR', '104'], ['Free T3', '3.4 pg/mL'],
+    ];
+
+    function BiomarkerTicker() {
+      return (
+        <div className="relative overflow-hidden border-b border-charcoal/10 bg-cream py-5" aria-hidden="true">
+          <div className="ticker-track flex w-max items-center whitespace-nowrap font-mono text-[11px] tracking-[0.14em]">
+            {[...MARKERS, ...MARKERS].map(([name, value], i) => (
+              <span key={i} className="flex items-center gap-3 pr-12">
+                <span className="uppercase text-charcoal/45">{name}</span>
+                <span className="text-moss">{value}</span>
+                <span className="ml-9 h-1 w-1 rotate-45 bg-clay/70" />
+              </span>
+            ))}
+          </div>
+          <div className="pointer-events-none absolute inset-y-0 left-0 w-24 bg-gradient-to-r from-cream to-transparent" />
+          <div className="pointer-events-none absolute inset-y-0 right-0 w-24 bg-gradient-to-l from-cream to-transparent" />
+        </div>
+      );
+    }
+
+    /* ======================================================================
+       C. Features: the precision micro-UI dashboard
+       ====================================================================== */
+
+    /* Card 1: Diagnostic Shuffler */
+    const SHUFFLE_CARDS = [
+      { id: 'epigenetic', label: 'Epigenetic Age', method: 'DNAm GrimAge2', value: '31.8', unit: 'yrs', delta: '−6.2 yrs', tone: 'moss', viz: 'age' },
+      { id: 'microbiome', label: 'Microbiome Score', method: 'Shotgun 1,204 taxa', value: '87', unit: '/ 100', delta: '+12 pts', tone: 'moss', viz: 'bars' },
+      { id: 'cortisol', label: 'Cortisol Optimization', method: 'Diurnal 4-point', value: '94', unit: '%', delta: 'In range', tone: 'clay', viz: 'curve' },
+    ];
+    const MICRO_BARS = (() => {
+      const rand = seeded(7);
+      return Array.from({ length: 30 }, () => 22 + rand() * 78);
+    })();
+
+    function ShuffleViz({ type }) {
+      if (type === 'bars') {
+        return (
+          <div className="flex h-6 items-end gap-[3px]">
+            {MICRO_BARS.map((h, i) => (
+              <span key={i} className="flex-1 rounded-full bg-moss" style={{ height: `${h}%`, opacity: 0.16 + (h / 100) * 0.72 }} />
+            ))}
+          </div>
+        );
+      }
+      if (type === 'curve') {
+        return (
+          <div className="relative h-6">
+            <svg viewBox="0 0 240 24" preserveAspectRatio="none" className="absolute inset-0 h-full w-full" aria-hidden="true">
+              <rect x="0" y="8" width="240" height="10" rx="5" fill={MOSS} fillOpacity="0.08" />
+              <path d="M0 17 C 14 17, 20 3, 34 3 S 72 8, 112 11.5 S 190 18, 240 20" fill="none" stroke={CLAY} strokeWidth="1.6" vectorEffect="non-scaling-stroke" />
+            </svg>
+            <span className="absolute h-2.5 w-2.5 -translate-x-1/2 -translate-y-1/2 rounded-full border-2 border-white bg-clay" style={{ left: '62.5%', top: '58%' }} />
+          </div>
+        );
+      }
+      // Biological vs chronological age on a 20 to 60 year scale.
+      return (
+        <div className="relative h-6">
+          <div className="absolute inset-x-0 top-[11px] h-[3px] rounded-full bg-charcoal/[0.08]" />
+          <div className="absolute top-[11px] h-[3px] rounded-full bg-moss/60" style={{ left: '29.5%', width: '15.5%' }} />
+          <div className="absolute top-[6px] h-[13px] w-px bg-charcoal/45" style={{ left: '45%' }} />
+          <span className="absolute top-[12.5px] h-3 w-3 -translate-x-1/2 -translate-y-1/2 rounded-full border-2 border-white bg-clay shadow-sm" style={{ left: '29.5%' }} />
+          <span className="absolute right-0 top-[-2px] font-mono text-[9px] uppercase tracking-[0.14em] text-charcoal/40">Chrono 38.0</span>
+        </div>
+      );
+    }
+
+    function ShuffleCardBody({ card }) {
+      return (
+        <div className="flex h-full flex-col">
+          <div className="flex items-center justify-between gap-3">
+            <span className="flex items-center gap-2 font-mono text-[10px] uppercase tracking-[0.2em] text-charcoal/60">
+              <span className={`h-1.5 w-1.5 rounded-full ${card.tone === 'clay' ? 'bg-clay' : 'bg-moss'}`} />
+              {card.label}
+            </span>
+            <span className="hidden font-mono text-[9.5px] uppercase tracking-[0.14em] text-charcoal/30 sm:inline">{card.method}</span>
+          </div>
+          <div className="mt-3 flex items-end justify-between">
+            <div className="flex items-baseline gap-1.5">
+              <span className="font-jakarta text-[34px] font-semibold leading-none tracking-[-0.045em] text-charcoal">{card.value}</span>
+              <span className="font-mono text-[11px] text-charcoal/40">{card.unit}</span>
+            </div>
+            <span className={`rounded-full px-2.5 py-1 font-mono text-[10px] ${card.tone === 'clay' ? 'bg-clay/10 text-clay' : 'bg-moss/10 text-moss'}`}>{card.delta}</span>
+          </div>
+          <div className="mt-auto"><ShuffleViz type={card.viz} /></div>
+        </div>
+      );
+    }
+
+    function DiagnosticShuffler() {
+      const ref = useRef(null);
+      const inView = useInView(ref, 0.3);
+      const [cards, setCards] = useState(SHUFFLE_CARDS);
+
+      useEffect(() => {
+        if (!inView || REDUCED_MOTION) return undefined;
+        const id = setInterval(() => {
+          setCards((prev) => {
+            const next = prev.slice();
+            next.unshift(next.pop());
+            return next;
+          });
+        }, 3000);
+        return () => clearInterval(id);
+      }, [inView]);
+
+      return (
+        <div ref={ref} className="absolute inset-0" aria-hidden="true">
+          <div
+            className="absolute inset-0"
+            style={{
+              backgroundImage: 'radial-gradient(rgba(26,26,26,0.13) 1px, transparent 1.3px)',
+              backgroundSize: '16px 16px',
+              WebkitMaskImage: 'radial-gradient(ellipse 85% 75% at 50% 60%, #000 25%, transparent 100%)',
+              maskImage: 'radial-gradient(ellipse 85% 75% at 50% 60%, #000 25%, transparent 100%)',
+            }}
+          />
+          <div className="absolute inset-x-6 top-6 flex items-center justify-between font-mono text-[10px] uppercase tracking-[0.22em] text-charcoal/45">
+            <span>Panel 142 · Live</span>
+            <span className="flex items-center gap-1.5">
+              {SHUFFLE_CARDS.map((c) => (
+                <span key={c.id} className={`h-1 rounded-full transition-all duration-500 ${c.id === cards[0].id ? 'w-5 bg-clay' : 'w-1.5 bg-charcoal/20'}`} />
+              ))}
+            </span>
+          </div>
+          <div className="absolute inset-x-6 bottom-7 h-[138px]">
+            {cards.map((card, i) => (
+              <div
+                key={card.id}
+                className="absolute inset-0 rounded-[1.5rem] border border-charcoal/[0.06] bg-white p-4 shadow-[0_1px_2px_rgba(26,26,26,0.05),0_18px_36px_-18px_rgba(46,64,54,0.4)]"
+                style={{
+                  transform: `translateY(${i * -17}px) scale(${1 - i * 0.06})`,
+                  transformOrigin: '50% 0%',
+                  zIndex: SHUFFLE_CARDS.length - i,
+                  opacity: 1 - i * 0.2,
+                  transition: `transform 900ms ${SPRING}, opacity 700ms ease`,
+                }}
+              >
+                <ShuffleCardBody card={card} />
+              </div>
+            ))}
+          </div>
+        </div>
+      );
+    }
+
+    /* Card 2: Telemetry Typewriter */
+    const FEED_MESSAGES = [
+      'Optimizing Circadian Rhythm...',
+      'Recalibrating Glucose Variability...',
+      'Mapping Methylation Drift...',
+      'Titrating Magnesium Glycinate...',
+      'Modeling Deep Sleep Architecture...',
+      'Synchronizing Cortisol Curve...',
+    ];
+    const FEED_SEED = [
+      { id: 'seed-1', time: '06:40:58', text: 'CGM stream attached · 5.1 mmol/L' },
+      { id: 'seed-2', time: '06:41:02', text: 'Oura ring synced · 7h 42m' },
+      { id: 'seed-3', time: '06:41:05', text: 'HRV baseline 68 ms · +4%' },
+    ];
+    const EQ_BARS = (() => {
+      const rand = seeded(21);
+      return Array.from({ length: 34 }, () => ({ delay: -rand() * 1.6, duration: 0.9 + rand() * 1.1, hot: rand() > 0.86 }));
+    })();
+
+    function TelemetryTypewriter() {
+      const ref = useRef(null);
+      const inView = useInView(ref, 0.3);
+      const [lines, setLines] = useState(FEED_SEED);
+      const [typed, setTyped] = useState('');
+      const cursor = useRef({ msg: 0, char: 0 });
+
+      useEffect(() => {
+        if (!inView) return undefined;
+        let timer;
+        const step = () => {
+          const s = cursor.current;
+          const msg = FEED_MESSAGES[s.msg % FEED_MESSAGES.length];
+          if (s.char <= msg.length) {
+            setTyped(msg.slice(0, s.char));
+            s.char += 1;
+            timer = setTimeout(step, msg[s.char - 2] === ' ' ? 90 : 32 + Math.random() * 42);
+          } else {
+            timer = setTimeout(() => {
+              setLines((prev) => [...prev, { id: `${s.msg}-${Date.now()}`, time: clockStamp(), text: `${msg.replace('...', '')} · OK` }].slice(-4));
+              setTyped('');
+              s.msg += 1;
+              s.char = 0;
+              timer = setTimeout(step, 450);
+            }, 1600);
+          }
+        };
+        step();
+        return () => clearTimeout(timer);
+      }, [inView]);
+
+      return (
+        <div
+          ref={ref}
+          className="absolute inset-0 flex flex-col p-6 font-mono text-[12px]"
+          style={{ backgroundImage: 'repeating-linear-gradient(0deg, rgba(242,240,233,0.022) 0 1px, transparent 1px 4px), radial-gradient(90% 70% at 50% 110%, rgba(46,64,54,0.55), transparent 70%)' }}
+        >
+          <div className="flex items-center justify-between text-[10px] uppercase tracking-[0.22em]">
+            <span className="flex items-center gap-2.5 text-cream/85"><PulseDot /> Live Feed</span>
+            <span className="text-cream/35">CH-02 · 90s</span>
+          </div>
+          <div className="mt-auto space-y-2.5" aria-hidden="true">
+            {lines.map((line, i) => (
+              <div key={line.id} className="flex gap-3 text-cream/60" style={{ opacity: 0.3 + ((i + 1) / lines.length) * 0.5 }}>
+                <span className="shrink-0 text-cream/40">{line.time}</span>
+                <span className="truncate">{line.text}</span>
+              </div>
+            ))}
+            <div className="flex min-h-[1.5em] gap-3 text-cream">
+              <span className="shrink-0 text-clay">&gt;</span>
+              <span className="min-w-0">
+                {typed}
+                <span className="cursor-blink ml-0.5 inline-block h-[1.1em] w-[0.55em] translate-y-[0.2em] bg-clay" />
+              </span>
+            </div>
+          </div>
+          <div className="mt-5 flex h-6 items-end gap-[3px]" aria-hidden="true">
+            {EQ_BARS.map((bar, i) => (
+              <span
+                key={i}
+                className={`eq-bar h-full flex-1 rounded-full ${bar.hot ? 'bg-clay' : 'bg-cream/25'}`}
+                style={{ animationDelay: `${bar.delay}s`, animationDuration: `${bar.duration}s` }}
+              />
+            ))}
+          </div>
+          <span className="sr-only">A live feed of protocol adjustments, such as optimizing circadian rhythm.</span>
+        </div>
+      );
+    }
+
+    /* Card 3: Mock Cursor Protocol Scheduler */
+    const WEEK_DAYS = ['S', 'M', 'T', 'W', 'T', 'F', 'S'];
+    const REGIMEN = [
+      { day: 1, item: 'Zone 2 Cardio', detail: '45 min · 128 bpm cap' },
+      { day: 3, item: 'Cold Exposure', detail: '3 min · 11°C' },
+      { day: 5, item: 'Resistance Block', detail: 'Lower · RPE 8' },
+      { day: 6, item: 'Infrared Sauna', detail: '20 min · 60°C' },
+    ];
+
+    function ProtocolScheduler() {
+      const stageRef = useRef(null);
+      const cursorRef = useRef(null);
+      const rippleRef = useRef(null);
+      const saveRef = useRef(null);
+      const dayRefs = useRef([]);
+      const [active, setActive] = useState([]);
+      const [itemIndex, setItemIndex] = useState(0);
+      const [saved, setSaved] = useState(false);
+      const [week, setWeek] = useState(39);
+
+      useEffect(() => {
+        const stage = stageRef.current;
+        if (!stage || REDUCED_MOTION) return undefined;
+        const cursor = cursorRef.current;
+        const ripple = rippleRef.current;
+        const save = saveRef.current;
+        let tl = null;
+        let cycle = 0;
+        let started = false;
+        let visible = false;
+        let killed = false;
+
+        const pulse = (pt) => gsap.fromTo(ripple, { x: pt.x, y: pt.y, scale: 0.3, opacity: 0.9 }, { scale: 1.6, opacity: 0, duration: 0.75, ease: 'expo.out' });
+
+        const run = () => {
+          if (killed) return;
+          const round = cycle % REGIMEN.length;
+          const step = REGIMEN[round];
+          if (cycle > 0 && round === 0) {
+            setActive([]);
+            setWeek((w) => w + 1);
+          }
+          setItemIndex(round);
+
+          const dayEl = dayRefs.current[step.day];
+          const day = centerWithin(dayEl, stage);
+          const btn = centerWithin(save, stage);
+
+          tl = gsap.timeline({ onComplete: () => { cycle += 1; run(); } });
+          tl.set(cursor, { x: stage.offsetWidth + 30, y: stage.offsetHeight * 0.8, scale: 1, opacity: 0 })
+            // enter and travel to the day
+            .to(cursor, { opacity: 1, duration: 0.35, ease: 'power1.out' }, 0.5)
+            .to(cursor, { x: day.x, y: day.y, duration: 1.15, ease: 'power3.inOut' }, 0.5)
+            // click: press down, activate, release
+            .to(cursor, { scale: 0.8, duration: 0.12, ease: 'power2.in' })
+            .to(dayEl, { scale: 0.88, duration: 0.12, ease: 'power2.in' }, '<')
+            .call(() => {
+              setActive((a) => (a.includes(step.day) ? a : [...a, step.day]));
+              pulse(day);
+            })
+            .to(cursor, { scale: 1, duration: 0.45, ease: 'back.out(3)' })
+            .to(dayEl, { scale: 1, duration: 0.6, ease: 'back.out(3)' }, '<')
+            // travel to Save and commit
+            .to(cursor, { x: btn.x, y: btn.y, duration: 0.95, ease: 'power3.inOut' }, '+=0.3')
+            .to(cursor, { scale: 0.8, duration: 0.12, ease: 'power2.in' })
+            .to(save, { scale: 0.9, duration: 0.12, ease: 'power2.in' }, '<')
+            .call(() => {
+              setSaved(true);
+              pulse(btn);
+            })
+            .to(cursor, { scale: 1, duration: 0.45, ease: 'back.out(3)' })
+            .to(save, { scale: 1, duration: 0.6, ease: 'back.out(3)' }, '<')
+            // exit
+            .to(cursor, { opacity: 0, x: '+=26', y: '+=18', duration: 0.55, ease: 'power2.in' }, '+=0.45')
+            .call(() => setSaved(false), null, '+=0.5')
+            .to({}, { duration: 0.35 });
+          if (!visible) tl.pause();
+        };
+
+        const io = new IntersectionObserver(([entry]) => {
+          visible = entry.isIntersecting;
+          if (visible && !started) {
+            started = true;
+            run();
+          } else if (tl) {
+            if (visible) tl.resume();
+            else tl.pause();
+          }
+        }, { threshold: 0.35 });
+        io.observe(stage);
+
+        return () => {
+          killed = true;
+          io.disconnect();
+          if (tl) tl.kill();
+          gsap.killTweensOf([cursor, ripple, save, ...dayRefs.current]);
+        };
+      }, []);
+
+      const current = REGIMEN[itemIndex];
+      return (
+        <div ref={stageRef} className="absolute inset-0 p-6" aria-hidden="true">
+          <div className="flex items-center justify-between font-mono text-[10px] uppercase tracking-[0.22em] text-charcoal/45">
+            <span>Week {week} · Regimen</span>
+            <span className="tabular-nums">{active.length}/7 sessions</span>
+          </div>
+          <div className="mt-5 flex items-baseline justify-between gap-3">
+            <span className="font-sans text-[19px] font-medium tracking-[-0.02em] text-charcoal">{current.item}</span>
+            <span className="truncate font-mono text-[10.5px] text-charcoal/45">{current.detail}</span>
+          </div>
+          <div className="mt-5 grid grid-cols-7 gap-1.5">
+            {WEEK_DAYS.map((d, i) => {
+              const on = active.includes(i);
+              return (
+                <div
+                  key={i}
+                  ref={(el) => { dayRefs.current[i] = el; }}
+                  className={`flex h-12 flex-col items-center justify-center gap-1 rounded-[0.9rem] border text-[13px] font-medium transition-colors duration-300 ${on ? 'border-moss bg-moss text-cream' : 'border-charcoal/[0.07] bg-white text-charcoal/55'}`}
+                >
+                  <span>{d}</span>
+                  <span className={`h-1 w-1 rounded-full transition-colors duration-300 ${on ? 'bg-clay' : 'bg-charcoal/10'}`} />
+                </div>
+              );
+            })}
+          </div>
+          <div className="absolute inset-x-6 bottom-6 flex items-center justify-between gap-3">
+            <span className="truncate font-mono text-[10px] uppercase tracking-[0.18em] text-charcoal/40">Syncs to Oura · Apple Health</span>
+            <div
+              ref={saveRef}
+              className={`flex shrink-0 items-center gap-1.5 rounded-full px-4 py-2 text-[12.5px] font-medium transition-colors duration-300 ${saved ? 'bg-moss text-cream' : 'bg-charcoal text-cream'}`}
+            >
+              {saved ? <><CheckIcon className="h-3.5 w-3.5" strokeWidth={2.2} /> Saved</> : 'Save'}
+            </div>
+          </div>
+          <span ref={rippleRef} className="pointer-events-none absolute left-0 top-0 z-10 -ml-5 -mt-5 h-10 w-10 rounded-full border-2 border-clay/70" style={{ opacity: 0 }} />
+          <div ref={cursorRef} className="pointer-events-none absolute left-0 top-0 z-20" style={{ opacity: 0, transformOrigin: '0 0' }}>
+            <svg width="24" height="24" viewBox="0 0 24 24" style={{ display: 'block', marginLeft: -3, marginTop: -2, filter: 'drop-shadow(0 4px 6px rgba(26,26,26,0.28))' }}>
+              <path d="M3 2 L3 19 L7.6 14.8 L10.7 21.6 L13.9 20.2 L10.9 13.5 L17.2 13.5 Z" fill={CHARCOAL} stroke="#FFFFFF" strokeWidth="1.4" strokeLinejoin="round" />
+            </svg>
+          </div>
+        </div>
+      );
+    }
+
+    function FeatureCard({ index, label, title, description, icon, dark = false, children }) {
+      return (
+        <article className="reveal flex flex-col rounded-[2.5rem] border border-charcoal/[0.07] bg-white/60 p-3 shadow-[0_30px_60px_-34px_rgba(46,64,54,0.35)]">
+          <div className={`relative h-[300px] overflow-hidden rounded-[2rem] ${dark ? 'bg-charcoal' : 'bg-cream'}`}>{children}</div>
+          <div className="flex flex-1 flex-col px-5 pb-6 pt-7 md:px-6">
+            <div className="flex items-center justify-between">
+              <span className="font-mono text-[10.5px] uppercase tracking-[0.24em] text-moss/65">{index} / {label}</span>
+              <span className="grid h-9 w-9 place-items-center rounded-full border border-moss/15 text-moss">{icon}</span>
+            </div>
+            <h3 className="mt-4 font-sans text-[26px] font-medium tracking-[-0.03em] text-charcoal">{title}</h3>
+            <p className="mt-3 text-[15px] leading-relaxed text-charcoal/60">{description}</p>
+          </div>
+        </article>
+      );
+    }
+
+    function Features() {
+      return (
+        <section id="system" className="relative px-5 pb-28 pt-24 sm:px-8 md:pb-36 md:pt-32 lg:px-12">
+          <div className="mx-auto max-w-[1360px]">
+            <div className="grid gap-10 lg:grid-cols-12 lg:items-end">
+              <div className="reveal lg:col-span-7">
+                <Eyebrow index="01">The Instrument</Eyebrow>
+                <h2 className="mt-7 font-jakarta font-bold leading-[0.98] tracking-[-0.045em] text-charcoal" style={{ fontSize: 'clamp(2.6rem, 5.6vw, 5.4rem)' }}>
+                  Your <Serif>biology,</Serif><br />in high resolution.
+                </h2>
+              </div>
+              <div className="reveal lg:col-span-4 lg:col-start-9">
+                <p className="text-[17px] leading-relaxed text-charcoal/60">
+                  Three interlocking systems translate raw physiology into clear decisions. Continuously, quietly, and with clinical rigor.
+                </p>
+                <div className="mt-6 flex flex-wrap gap-x-6 gap-y-2 font-mono text-[10.5px] uppercase tracking-[0.22em] text-moss/70">
+                  <span>142 biomarkers</span>
+                  <span>90s cadence</span>
+                  <span>Physician-led</span>
+                </div>
+              </div>
+            </div>
+
+            <div className="mt-16 grid gap-5 md:mt-20 lg:grid-cols-3 lg:gap-6">
+              <FeatureCard
+                index="01"
+                label="Audit"
+                title="Audit Intelligence"
+                icon={<ScanIcon className="h-4 w-4" />}
+                description="Epigenetic clocks, microbial sequencing and hormonal rhythm, distilled into the few numbers that actually move your healthspan."
+              >
+                <DiagnosticShuffler />
+              </FeatureCard>
+              <FeatureCard
+                index="02"
+                label="Stream"
+                title="Neural Stream"
+                dark
+                icon={<SignalIcon className="h-4 w-4" />}
+                description="Wearable and lab telemetry parsed every 90 seconds. The protocol listens continuously, and speaks only when it matters."
+              >
+                <TelemetryTypewriter />
+              </FeatureCard>
+              <FeatureCard
+                index="03"
+                label="Regimen"
+                title="Adaptive Regimen"
+                icon={<CalendarIcon className="h-4 w-4" />}
+                description="Training, fasting, light and supplementation scheduled around your chronotype, then rebalanced weekly by your care team."
+              >
+                <ProtocolScheduler />
+              </FeatureCard>
+            </div>
+          </div>
+        </section>
+      );
+    }
+
+    /* ======================================================================
+       D. Philosophy: the manifesto
+       ====================================================================== */
+    const SICK_CARE = ['Reactive: waits for symptoms', 'Population reference ranges', 'Annual fifteen-minute visits', 'Treats the lab report'];
+    const NURA_MODEL = ['Predictive: acts on trajectories', 'N-of-1 optimal ranges', 'Continuous biological telemetry'];
+
+    function Philosophy() {
+      const root = useRef(null);
+
+      useLayoutEffect(() => {
+        let alive = true;
+        const ctx = gsap.context(() => {
+          if (REDUCED_MOTION) return;
+          gsap.set('.philo-a .split-word, .philo-b .split-word', { yPercent: 140 });
+          gsap.set('.philo-b .split-word', { rotate: 5, transformOrigin: '0% 100%' });
+          gsap.set('.philo-rule', { scaleX: 0, transformOrigin: '0% 50%' });
+          gsap.set('.philo-col', { opacity: 0, y: 32 });
+        }, root);
+
+        stageReady.then(() => {
+          if (!alive) return;
+          ctx.add(() => {
+            gsap.fromTo('.philo-texture', { yPercent: -10 }, {
+              yPercent: 10,
+              ease: 'none',
+              scrollTrigger: { trigger: root.current, start: 'top bottom', end: 'bottom top', scrub: true },
+            });
+            if (REDUCED_MOTION) return;
+            gsap.timeline({ scrollTrigger: { trigger: '.philo-a', start: 'top 78%' } })
+              .to('.philo-a .split-word', { yPercent: 0, duration: 1.1, ease: 'expo.out', stagger: 0.05 })
+              .to('.philo-b .split-word', { yPercent: 0, rotate: 0, duration: 1.4, ease: 'expo.out', stagger: 0.08 }, '-=0.5')
+              .to('.philo-rule', { scaleX: 1, duration: 1.3, ease: 'expo.inOut' }, '-=1.0')
+              .to('.philo-col', { opacity: 1, y: 0, duration: 1.1, ease: 'power3.out', stagger: 0.12 }, '-=0.9');
+          });
+        });
+
+        return () => {
+          alive = false;
+          ctx.revert();
+        };
+      }, []);
+
+      return (
+        <section id="philosophy" ref={root} className="relative mx-3 overflow-hidden rounded-[2.5rem] bg-charcoal text-cream sm:mx-4 md:mx-6 md:rounded-[3rem]">
+          <div className="philo-texture pointer-events-none absolute inset-x-0 -top-[18%] h-[136%]" aria-hidden="true">
+            <img
+              src={TEXTURE_IMAGE}
+              alt=""
+              loading="lazy"
+              className="h-full w-full object-cover mix-blend-luminosity"
+              style={{ opacity: 0.22, filter: 'contrast(1.15)' }}
+              onError={(e) => { e.currentTarget.style.visibility = 'hidden'; }}
+            />
+          </div>
+          <div className="pointer-events-none absolute inset-0" aria-hidden="true" style={{ background: 'linear-gradient(180deg, #1A1A1A 0%, rgba(26,26,26,0.55) 22%, rgba(26,26,26,0.62) 70%, #1A1A1A 100%)' }} />
+          <div className="pointer-events-none absolute inset-0" aria-hidden="true" style={{ background: 'radial-gradient(60% 50% at 85% 30%, rgba(46,64,54,0.5), transparent 70%)' }} />
+
+          <div className="relative mx-auto max-w-[1360px] px-6 py-28 sm:px-10 md:py-40 lg:px-16 lg:py-48">
+            <Eyebrow index="02" tone="dark">Manifesto</Eyebrow>
+
+            <p className="philo-a mt-14 font-jakarta font-medium leading-[1.08] tracking-[-0.03em] text-cream/45" style={{ fontSize: 'clamp(1.6rem, 3.3vw, 3rem)' }}>
+              <SplitWords text="Modern medicine asks:" />
+              <br />
+              <SplitWords text="What is wrong?" className="text-cream/75" />
+            </p>
+
+            <div className="philo-b mt-16 md:mt-24">
+              <p className="font-jakarta font-bold leading-none tracking-[-0.04em]" style={{ fontSize: 'clamp(1.6rem, 3.3vw, 3rem)' }}>
+                <SplitWords text="We ask:" />
+              </p>
+              <p className="mt-2 font-serif font-normal italic leading-[0.88] tracking-[-0.025em]" style={{ fontSize: 'clamp(3.5rem, 10.5vw, 10rem)' }}>
+                <SplitWords words={['What', 'is', <Fragment key="o"><span className="text-clay">optimal</span>?</Fragment>]} />
+              </p>
+            </div>
+
+            <div className="philo-rule mt-20 h-px bg-cream/15 md:mt-28" />
+
+            <div className="mt-12 grid gap-12 md:grid-cols-2 md:gap-16">
+              <div className="philo-col">
+                <p className="font-mono text-[11px] uppercase tracking-[0.26em] text-cream/40">The sick-care model</p>
+                <ul className="mt-6 divide-y divide-cream/10 border-y border-cream/10">
+                  {SICK_CARE.map((item, i) => (
+                    <li key={item} className="flex items-center justify-between py-4 text-[16px] text-cream/45">
+                      <span>{item}</span>
+                      <span className="font-mono text-[10px] text-cream/25">{pad2(i + 1)}</span>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+              <div className="philo-col">
+                <p className="font-mono text-[11px] uppercase tracking-[0.26em] text-clay">The Nura model</p>
+                <ul className="mt-6 divide-y divide-cream/10 border-y border-cream/10">
+                  {NURA_MODEL.map((item, i) => (
+                    <li key={item} className="flex items-center justify-between py-4 text-[16px] text-cream/90">
+                      <span>{item}</span>
+                      <span className="font-mono text-[10px] text-clay/80">{pad2(i + 1)}</span>
+                    </li>
+                  ))}
+                  <li className="flex items-center justify-between py-4 text-[16px] text-cream/90">
+                    <span>Optimizes the <Serif>living system</Serif></span>
+                    <span className="font-mono text-[10px] text-clay/80">04</span>
+                  </li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </section>
+      );
+    }
+
+    /* ======================================================================
+       E. Protocol artifacts (true custom SVG instruments)
+       ====================================================================== */
+
+    /* Artifact 1: a double helix wrapped into a rotating gear */
+    const buildGearPath = (cx, cy, rIn, rOut, teeth) => {
+      const step = TAU / teeth;
+      const pt = (r, a) => `${(cx + r * Math.cos(a)).toFixed(2)} ${(cy + r * Math.sin(a)).toFixed(2)}`;
+      let d = '';
+      for (let i = 0; i < teeth; i++) {
+        const a = i * step;
+        d += `${i === 0 ? 'M' : 'L'}${pt(rIn, a)} L${pt(rOut, a + step * 0.14)} L${pt(rOut, a + step * 0.42)} L${pt(rIn, a + step * 0.56)} `;
+      }
+      return `${d}Z`;
+    };
+    const HELIX = { C: 200, R: 112, AMP: 26, TWISTS: 7, RUNGS: 56, SAMPLES: 210 };
+
+    function HelixGear({ active }) {
+      const { C, R, AMP, TWISTS, RUNGS, SAMPLES } = HELIX;
+      const gearPath = useMemo(() => buildGearPath(C, C, 168, 181, 44), []);
+      const ticks = useMemo(() => Array.from({ length: 72 }, (_, i) => i), []);
+      const strandA = useRef(null);
+      const strandB = useRef(null);
+      const rotor = useRef(null);
+      const gear = useRef(null);
+      const rungs = useRef([]);
+      const nodesA = useRef([]);
+      const nodesB = useRef([]);
+      const st = useRef({ phase: 0, rot: 0, gear: 0 });
+
+      const draw = (dt) => {
+        const s = st.current;
+        if (!strandA.current) return;
+        s.phase += dt * 0.0011;
+        s.rot += dt * 0.004;
+        s.gear -= dt * 0.0065;
+
+        let dA = '';
+        let dB = '';
+        for (let i = 0; i <= SAMPLES; i++) {
+          const t = (i / SAMPLES) * TAU;
+          const w = Math.sin(TWISTS * t + s.phase) * AMP;
+          const c = Math.cos(t);
+          const sn = Math.sin(t);
+          const cmd = i ? 'L' : 'M';
+          dA += `${cmd}${(C + (R + w) * c).toFixed(1)} ${(C + (R + w) * sn).toFixed(1)}`;
+          dB += `${cmd}${(C + (R - w) * c).toFixed(1)} ${(C + (R - w) * sn).toFixed(1)}`;
+        }
+        strandA.current.setAttribute('d', dA);
+        strandB.current.setAttribute('d', dB);
+
+        for (let k = 0; k < RUNGS; k++) {
+          const t = (k / RUNGS) * TAU;
+          const ang = TWISTS * t + s.phase;
+          const w = Math.sin(ang) * AMP;
+          const depth = Math.cos(ang);
+          const c = Math.cos(t);
+          const sn = Math.sin(t);
+          const xa = (C + (R + w) * c).toFixed(1);
+          const ya = (C + (R + w) * sn).toFixed(1);
+          const xb = (C + (R - w) * c).toFixed(1);
+          const yb = (C + (R - w) * sn).toFixed(1);
+          const rung = rungs.current[k];
+          rung.setAttribute('x1', xa);
+          rung.setAttribute('y1', ya);
+          rung.setAttribute('x2', xb);
+          rung.setAttribute('y2', yb);
+          rung.setAttribute('stroke-opacity', (0.08 + 0.34 * Math.abs(Math.sin(ang))).toFixed(2));
+          const na = nodesA.current[k];
+          na.setAttribute('cx', xa);
+          na.setAttribute('cy', ya);
+          na.setAttribute('r', (2.7 + 1.6 * depth).toFixed(2));
+          na.setAttribute('fill-opacity', (0.6 + 0.4 * depth).toFixed(2));
+          const nb = nodesB.current[k];
+          nb.setAttribute('cx', xb);
+          nb.setAttribute('cy', yb);
+          nb.setAttribute('r', (2.7 - 1.6 * depth).toFixed(2));
+          nb.setAttribute('fill-opacity', (0.6 - 0.4 * depth).toFixed(2));
+        }
+        rotor.current.setAttribute('transform', `rotate(${s.rot.toFixed(2)} ${C} ${C})`);
+        gear.current.setAttribute('transform', `rotate(${s.gear.toFixed(2)} ${C} ${C})`);
+      };
+
+      useLayoutEffect(() => { draw(0); }, []);
+      useTicker((time, dt) => draw(dt), active && !REDUCED_MOTION);
+
+      return (
+        <div className="absolute inset-0">
+          <svg viewBox="0 0 400 400" className="absolute inset-0 h-full w-full p-6 md:p-10" aria-hidden="true">
+            <defs>
+              <radialGradient id="helixCore" cx="50%" cy="50%" r="50%">
+                <stop offset="0%" stopColor={CLAY} stopOpacity="0.16" />
+                <stop offset="100%" stopColor={CLAY} stopOpacity="0" />
+              </radialGradient>
+            </defs>
+            <circle cx={C} cy={C} r="197" fill="none" stroke={CHARCOAL} strokeOpacity="0.12" strokeDasharray="1 6" />
+            <g ref={gear}>
+              <path d={gearPath} fill="none" stroke={CHARCOAL} strokeOpacity="0.2" strokeWidth="1" strokeLinejoin="round" />
+              <circle cx={C + 174.5} cy={C} r="2.2" fill={CLAY} />
+            </g>
+            <g>
+              {ticks.map((i) => {
+                const a = (i / ticks.length) * TAU;
+                const long = i % 6 === 0;
+                const r1 = long ? 146 : 150;
+                return (
+                  <line
+                    key={i}
+                    x1={(C + r1 * Math.cos(a)).toFixed(1)}
+                    y1={(C + r1 * Math.sin(a)).toFixed(1)}
+                    x2={(C + 156 * Math.cos(a)).toFixed(1)}
+                    y2={(C + 156 * Math.sin(a)).toFixed(1)}
+                    stroke={CHARCOAL}
+                    strokeOpacity={long ? 0.35 : 0.14}
+                    strokeWidth="1"
+                  />
+                );
+              })}
+            </g>
+            <circle cx={C} cy={C} r="96" fill="url(#helixCore)" />
+            <g ref={rotor}>
+              {Array.from({ length: RUNGS }, (_, k) => (
+                <line key={`r${k}`} ref={(el) => { rungs.current[k] = el; }} stroke={CHARCOAL} strokeWidth="1" />
+              ))}
+              <path ref={strandA} fill="none" stroke={MOSS} strokeWidth="1.7" />
+              <path ref={strandB} fill="none" stroke={CLAY} strokeWidth="1.7" />
+              {Array.from({ length: RUNGS }, (_, k) => (
+                <circle key={`a${k}`} ref={(el) => { nodesA.current[k] = el; }} fill={MOSS} />
+              ))}
+              {Array.from({ length: RUNGS }, (_, k) => (
+                <circle key={`b${k}`} ref={(el) => { nodesB.current[k] = el; }} fill={CLAY} />
+              ))}
+            </g>
+            <circle cx={C} cy={C} r="58" fill="#FBFAF6" stroke={CHARCOAL} strokeOpacity="0.12" />
+            <circle cx={C} cy={C} r="50" fill="none" stroke={CHARCOAL} strokeOpacity="0.2" strokeDasharray="2 4" />
+            <text x={C} y={C + 3} textAnchor="middle" fontFamily="Plus Jakarta Sans, sans-serif" fontWeight="700" fontSize="22" letterSpacing="-0.5" fill={CHARCOAL}>3.2 Gb</text>
+            <text x={C} y={C + 20} textAnchor="middle" fontFamily="IBM Plex Mono, monospace" fontSize="7.5" letterSpacing="2.2" fill={CHARCOAL} fillOpacity="0.5">GENOME · 30X</text>
+          </svg>
+          <ArtifactHud
+            tone="light"
+            corners={['Sequencing · WGS', 'Chr 1–22 · X · Y', 'Variants 4.1M', 'PRS 0.82 · Low']}
+          />
+        </div>
+      );
+    }
+
+    /* Artifact 2: a laser grid sweeping over a field of cells */
+    const bracketPath = (s, a = 6) =>
+      `M${-s} ${-s + a}V${-s}H${-s + a}M${s - a} ${-s}H${s}V${-s + a}M${s} ${s - a}V${s}H${s - a}M${-s + a} ${s}H${-s}V${s - a}`;
+
+    function LaserScan({ active }) {
+      const cells = useMemo(() => {
+        const rand = seeded(1307);
+        const cols = 7;
+        const rows = 7;
+        const gx = 400 / cols;
+        const gy = 400 / rows;
+        const list = [];
+        for (let row = 0; row < rows; row++) {
+          for (let col = 0; col < cols; col++) {
+            const r = 15 + rand() * 7;
+            list.push({
+              x: gx * (col + 0.5) + (row % 2 ? gx * 0.22 : -gx * 0.22) + (rand() - 0.5) * 7,
+              y: gy * (row + 0.5) + (rand() - 0.5) * 7,
+              r,
+              nx: (rand() - 0.5) * r * 0.55,
+              ny: (rand() - 0.5) * r * 0.55,
+              nr: r * (0.28 + rand() * 0.12),
+              ox: (rand() - 0.5) * r * 0.9,
+              oy: (rand() - 0.5) * r * 0.9,
+              anomaly: false,
+            });
+          }
+        }
+        [10, 23, 38].forEach((i) => { list[i].anomaly = true; });
+        return list;
+      }, []);
+
+      const cellRefs = useRef([]);
+      const membraneRefs = useRef([]);
+      const reticleRefs = useRef([]);
+      const laserRef = useRef(null);
+      const trailRef = useRef(null);
+      const bandRef = useRef(null);
+      const countRef = useRef(null);
+      const flagRef = useRef(null);
+      const st = useRef({ t: 900, energy: cells.map(() => 0), flag: cells.map(() => 0), count: 18402, lastCount: -1, lastFlag: -1 });
+
+      const draw = (dt) => {
+        const s = st.current;
+        if (!laserRef.current) return;
+        s.t += dt;
+        const period = 3600;
+        const cyc = (s.t % (period * 2)) / period;
+        const forward = cyc < 1;
+        const e = forward ? cyc : 2 - cyc;
+        const y = 18 + (0.5 - 0.5 * Math.cos(Math.PI * e)) * 364;
+        laserRef.current.setAttribute('transform', `translate(0 ${y.toFixed(1)})`);
+        trailRef.current.setAttribute('transform', forward ? 'scale(1 1)' : 'scale(1 -1)');
+        bandRef.current.setAttribute('y', (y - 70).toFixed(1));
+
+        const decay = Math.pow(0.9975, dt);
+        const flagDecay = Math.pow(0.9992, dt);
+        let flagged = 0;
+        for (let i = 0; i < cells.length; i++) {
+          const c = cells[i];
+          const hit = Math.max(0, 1 - Math.abs(c.y - y) / (c.r + 10));
+          const en = Math.max(s.energy[i] * decay, hit);
+          s.energy[i] = en;
+          cellRefs.current[i].setAttribute('opacity', (0.36 + 0.64 * en).toFixed(3));
+          membraneRefs.current[i].setAttribute('fill-opacity', (0.03 + 0.2 * en).toFixed(3));
+          if (c.anomaly) {
+            const f = Math.max(s.flag[i] * flagDecay, hit > 0.55 ? 1 : 0);
+            s.flag[i] = f;
+            reticleRefs.current[i].setAttribute('opacity', f.toFixed(3));
+            if (f > 0.4) flagged += 1;
+          }
+        }
+        s.count += dt * 0.42;
+        const n = Math.floor(s.count);
+        if (n !== s.lastCount && countRef.current) {
+          s.lastCount = n;
+          countRef.current.textContent = n.toLocaleString('en-US');
+        }
+        if (flagged !== s.lastFlag && flagRef.current) {
+          s.lastFlag = flagged;
+          flagRef.current.textContent = pad2(flagged);
+        }
+      };
+
+      useLayoutEffect(() => { draw(0); }, []);
+      useTicker((time, dt) => draw(dt), active && !REDUCED_MOTION);
+
+      return (
+        <div className="absolute inset-0">
+          <svg viewBox="0 0 400 400" preserveAspectRatio="xMidYMid slice" className="absolute inset-0 h-full w-full" aria-hidden="true">
+            <defs>
+              <pattern id="scanGrid" width="20" height="20" patternUnits="userSpaceOnUse">
+                <path d="M10 0V20M0 10H20" fill="none" stroke={CREAM} strokeOpacity="0.07" strokeWidth="1" />
+              </pattern>
+              <pattern id="scanGridHot" width="20" height="20" patternUnits="userSpaceOnUse">
+                <path d="M10 0V20M0 10H20" fill="none" stroke={CLAY} strokeOpacity="0.6" strokeWidth="1" />
+                <path d="M7 10H13M10 7V13" stroke={CREAM} strokeOpacity="0.9" strokeWidth="1" />
+              </pattern>
+              <linearGradient id="scanBandGrad" x1="0" y1="0" x2="0" y2="1">
+                <stop offset="0" stopColor="#FFFFFF" stopOpacity="0" />
+                <stop offset="0.5" stopColor="#FFFFFF" stopOpacity="1" />
+                <stop offset="1" stopColor="#FFFFFF" stopOpacity="0" />
+              </linearGradient>
+              <mask id="scanBandMask" maskUnits="userSpaceOnUse" x="0" y="0" width="400" height="400">
+                <rect ref={bandRef} x="0" y="0" width="400" height="140" fill="url(#scanBandGrad)" />
+              </mask>
+              <linearGradient id="scanTrailGrad" x1="0" y1="0" x2="0" y2="1">
+                <stop offset="0" stopColor={CLAY} stopOpacity="0" />
+                <stop offset="1" stopColor={CLAY} stopOpacity="0.32" />
+              </linearGradient>
+              <filter id="scanGlow" x="-5%" y="-400%" width="110%" height="900%">
+                <feGaussianBlur stdDeviation="2.6" />
+              </filter>
+            </defs>
+
+            <rect width="400" height="400" fill="url(#scanGrid)" />
+            <rect width="400" height="400" fill="url(#scanGridHot)" mask="url(#scanBandMask)" />
+
+            {cells.map((c, i) => (
+              <g key={i} ref={(el) => { cellRefs.current[i] = el; }} transform={`translate(${c.x.toFixed(1)} ${c.y.toFixed(1)})`} opacity="0.4">
+                <circle
+                  ref={(el) => { membraneRefs.current[i] = el; }}
+                  r={c.r.toFixed(1)}
+                  fill={c.anomaly ? CLAY : CREAM}
+                  fillOpacity="0.03"
+                  stroke={c.anomaly ? CLAY : CREAM}
+                  strokeOpacity={c.anomaly ? 0.95 : 0.6}
+                  strokeWidth="1"
+                />
+                <circle cx={c.nx.toFixed(1)} cy={c.ny.toFixed(1)} r={c.nr.toFixed(1)} fill={c.anomaly ? CLAY : CREAM} fillOpacity="0.34" />
+                <circle cx={(c.ox * 0.6).toFixed(1)} cy={(c.oy * 0.6).toFixed(1)} r="1.5" fill={CREAM} fillOpacity="0.55" />
+                <circle cx={(-c.oy * 0.5).toFixed(1)} cy={(c.ox * 0.5).toFixed(1)} r="1" fill={CREAM} fillOpacity="0.45" />
+              </g>
+            ))}
+
+            {cells.map((c, i) => (c.anomaly ? (
+              <g key={`ret${i}`} ref={(el) => { reticleRefs.current[i] = el; }} transform={`translate(${c.x.toFixed(1)} ${c.y.toFixed(1)})`} opacity="0">
+                <path d={bracketPath(c.r + 7)} fill="none" stroke={CLAY} strokeWidth="1.5" />
+                <text x={c.r + 11} y={-c.r - 2} fontFamily="IBM Plex Mono, monospace" fontSize="8.5" letterSpacing="1.2" fill={CREAM}>
+                  {`FLAG ${pad2(i)}`}
+                </text>
+              </g>
+            ) : null))}
+
+            <g ref={laserRef}>
+              <g ref={trailRef}>
+                <rect x="0" y="-72" width="400" height="72" fill="url(#scanTrailGrad)" />
+              </g>
+              <line x1="0" y1="0" x2="400" y2="0" stroke={CLAY} strokeWidth="5" strokeOpacity="0.55" filter="url(#scanGlow)" />
+              <line x1="0" y1="0" x2="400" y2="0" stroke="#F4B49C" strokeWidth="1.2" />
+              <rect x="380" y="-3" width="12" height="6" rx="2" fill={CLAY} />
+            </g>
+          </svg>
+
+          <div className="pointer-events-none absolute inset-0 flex flex-col justify-between p-4 font-mono text-[9.5px] uppercase tracking-[0.14em] text-cream/65 sm:p-5 sm:text-[10px] sm:tracking-[0.22em] md:p-6">
+            <div className="flex items-start justify-between gap-3">
+              <span className="whitespace-nowrap rounded-full border border-cream/15 bg-moss/80 px-3 py-1.5">Cell scan · L4</span>
+              <span className="whitespace-nowrap rounded-full border border-cream/15 bg-moss/80 px-3 py-1.5">
+                <span ref={countRef} className="tabular-nums text-cream">18,402</span> cells
+              </span>
+            </div>
+            <div className="flex items-end justify-between gap-3">
+              <span className="whitespace-nowrap rounded-full border border-cream/15 bg-moss/80 px-3 py-1.5">Res 0.4 <span className="normal-case">µm</span></span>
+              <span className="whitespace-nowrap rounded-full border border-clay/40 bg-moss/80 px-3 py-1.5 text-cream">
+                <span ref={flagRef} className="tabular-nums text-clay">00</span> flagged
+              </span>
+            </div>
+          </div>
+        </div>
+      );
+    }
+
+    /* Artifact 3: an EKG monitor sweep with R-peak pulse detection */
+    const EKG = { W: 480, H: 240, BASE: 140, BEAT: 160, R: 57, SPEED: 0.16 };
+    const ekgAmp = (u) => {
+      if (u >= 16 && u < 38) return 9 * Math.sin((Math.PI * (u - 16)) / 22);
+      if (u >= 48 && u < 52) return -8 * ((u - 48) / 4);
+      if (u >= 52 && u < 57) return -8 + 104 * ((u - 52) / 5);
+      if (u >= 57 && u < 63) return 96 - 122 * ((u - 57) / 6);
+      if (u >= 63 && u < 69) return -26 + 26 * ((u - 63) / 6);
+      if (u >= 84 && u < 124) return 18 * Math.sin((Math.PI * (u - 84)) / 40);
+      return 0;
+    };
+    const ekgY = (x) => EKG.BASE - ekgAmp(((x % EKG.BEAT) + EKG.BEAT) % EKG.BEAT);
+    const EKG_PATH = (() => {
+      let d = '';
+      for (let x = 0; x <= EKG.W; x += 1) d += `${x ? 'L' : 'M'}${x} ${ekgY(x).toFixed(1)}`;
+      return d;
+    })();
+
+    function EkgMonitor({ active }) {
+      const liveClip = useRef(null);
+      const oldClip = useRef(null);
+      const glowRect = useRef(null);
+      const head = useRef(null);
+      const halo = useRef(null);
+      const bpmRef = useRef(null);
+      const heartRef = useRef(null);
+      const st = useRef({ x: 190, bpm: 61 });
+
+      const beat = (peakX) => {
+        const s = st.current;
+        s.bpm = clamp(s.bpm + Math.round((Math.random() - 0.5) * 3), 57, 64);
+        if (bpmRef.current) bpmRef.current.textContent = s.bpm;
+        gsap.killTweensOf([halo.current, heartRef.current]);
+        halo.current.setAttribute('cx', peakX);
+        halo.current.setAttribute('cy', ekgY(peakX).toFixed(1));
+        gsap.fromTo(halo.current, { attr: { r: 4 }, opacity: 0.8 }, { attr: { r: 30 }, opacity: 0, duration: 0.9, ease: 'expo.out' });
+        gsap.fromTo(heartRef.current, { scale: 1.3 }, { scale: 1, duration: 0.6, ease: 'expo.out' });
+      };
+
+      const draw = (dt) => {
+        const s = st.current;
+        if (!liveClip.current) return;
+        const prev = s.x;
+        let x = prev + dt * EKG.SPEED;
+        const wrapped = x >= EKG.W;
+        if (wrapped) x -= EKG.W;
+        s.x = x;
+
+        // Fire on every R-peak the sweep crossed this frame.
+        const peakIn = (a, b) => {
+          const k = Math.floor((b - EKG.R) / EKG.BEAT);
+          const p = EKG.R + k * EKG.BEAT;
+          return k >= 0 && p > a && p <= b ? p : null;
+        };
+        const peak = wrapped ? (peakIn(prev, EKG.W) ?? peakIn(-1, x)) : peakIn(prev, x);
+        if (peak !== null && dt > 0) beat(peak);
+
+        const gap = 34;
+        liveClip.current.setAttribute('width', x.toFixed(1));
+        oldClip.current.setAttribute('x', (x + gap).toFixed(1));
+        oldClip.current.setAttribute('width', Math.max(0, EKG.W - x - gap).toFixed(1));
+        glowRect.current.setAttribute('x', (x - 120).toFixed(1));
+        head.current.setAttribute('transform', `translate(${x.toFixed(1)} ${ekgY(x).toFixed(1)})`);
+      };
+
+      useLayoutEffect(() => { draw(0); }, []);
+      useTicker((time, dt) => draw(dt), active && !REDUCED_MOTION);
+
+      const stats = [
+        { label: 'Heart rate', value: <span ref={bpmRef}>61</span>, unit: 'bpm', live: true },
+        { label: 'HRV rMSSD', value: '72', unit: 'ms' },
+        { label: 'SpO2', value: '98', unit: '%' },
+        { label: 'Recovery', value: '91', unit: '/ 100' },
+      ];
+
+      return (
+        <div className="absolute inset-0 flex flex-col p-5 md:p-7">
+          <div className="flex items-center justify-between font-mono text-[10px] uppercase tracking-[0.22em] text-cream/45">
+            <span>Lead II · 25 mm/s</span>
+            <span className="flex items-center gap-2.5 text-cream/75"><PulseDot /> Recording</span>
+          </div>
+          <div
+            className="relative my-4 min-h-0 flex-1 rounded-[1.25rem]"
+            style={{
+              backgroundImage: 'linear-gradient(rgba(242,240,233,0.085) 1px, transparent 1px), linear-gradient(90deg, rgba(242,240,233,0.085) 1px, transparent 1px), linear-gradient(rgba(242,240,233,0.04) 1px, transparent 1px), linear-gradient(90deg, rgba(242,240,233,0.04) 1px, transparent 1px)',
+              backgroundSize: '80px 80px, 80px 80px, 16px 16px, 16px 16px',
+              backgroundPosition: 'center center',
+            }}
+          >
+            <svg viewBox={`0 0 ${EKG.W} ${EKG.H}`} className="absolute inset-0 h-full w-full" aria-hidden="true">
+              <defs>
+                <clipPath id="ekgLiveClip"><rect ref={liveClip} x="0" y="0" width="0" height={EKG.H} /></clipPath>
+                <clipPath id="ekgOldClip"><rect ref={oldClip} x="0" y="0" width={EKG.W} height={EKG.H} /></clipPath>
+                <linearGradient id="ekgGlowGrad" x1="0" y1="0" x2="1" y2="0">
+                  <stop offset="0" stopColor="#FFFFFF" stopOpacity="0" />
+                  <stop offset="1" stopColor="#FFFFFF" stopOpacity="1" />
+                </linearGradient>
+                <mask id="ekgGlowMask" maskUnits="userSpaceOnUse" x="-20" y="-20" width={EKG.W + 40} height={EKG.H + 40}>
+                  <rect ref={glowRect} x="0" y="-20" width="120" height={EKG.H + 40} fill="url(#ekgGlowGrad)" />
+                </mask>
+                <filter id="ekgBlur" x="-10%" y="-50%" width="120%" height="200%">
+                  <feGaussianBlur stdDeviation="3.2" />
+                </filter>
+              </defs>
+              <path d={EKG_PATH} fill="none" stroke={CLAY} strokeOpacity="0.3" strokeWidth="1.6" strokeLinejoin="round" clipPath="url(#ekgOldClip)" />
+              <g mask="url(#ekgGlowMask)">
+                <path d={EKG_PATH} fill="none" stroke={CLAY} strokeWidth="6" strokeOpacity="0.7" filter="url(#ekgBlur)" clipPath="url(#ekgLiveClip)" />
+              </g>
+              <path d={EKG_PATH} fill="none" stroke={CLAY} strokeWidth="1.9" strokeLinejoin="round" clipPath="url(#ekgLiveClip)" />
+              <circle ref={halo} cx="0" cy={EKG.BASE} r="4" fill="none" stroke={CLAY} strokeWidth="1.3" opacity="0" />
+              <g ref={head}>
+                <circle r="10" fill={CLAY} fillOpacity="0.2" />
+                <circle r="3.4" fill={CREAM} />
+              </g>
+            </svg>
+          </div>
+          <div className="grid grid-cols-2 gap-2.5 sm:grid-cols-4">
+            {stats.map((stat) => (
+              <div key={stat.label} className="rounded-[1.25rem] border border-cream/10 bg-cream/[0.03] px-4 py-3">
+                <div className="flex items-center justify-between font-mono text-[9.5px] uppercase tracking-[0.2em] text-cream/40">
+                  {stat.label}
+                  {stat.live && <span ref={heartRef} className="inline-flex text-clay"><HeartIcon className="h-3.5 w-3.5" strokeWidth={1.8} /></span>}
+                </div>
+                <div className="mt-1.5 flex items-baseline gap-1.5">
+                  <span className="font-jakarta text-[26px] font-semibold leading-none tracking-[-0.04em] text-cream tabular-nums">{stat.value}</span>
+                  <span className="font-mono text-[10px] text-cream/40">{stat.unit}</span>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      );
+    }
+
+    const HUD_TONES = {
+      light: 'border-charcoal/10 bg-white/80 text-charcoal/55',
+      dark: 'border-cream/15 bg-charcoal/80 text-cream/60',
+    };
+    function ArtifactHud({ corners, tone }) {
+      const chip = `whitespace-nowrap rounded-full border px-3 py-1.5 ${HUD_TONES[tone]}`;
+      return (
+        <div className="pointer-events-none absolute inset-0 flex flex-col justify-between p-4 font-mono text-[9.5px] uppercase tracking-[0.14em] sm:p-5 sm:text-[10px] sm:tracking-[0.22em] md:p-6">
+          <div className="flex items-start justify-between gap-3">
+            <span className={chip}>{corners[0]}</span>
+            <span className={`hidden sm:inline ${chip}`}>{corners[1]}</span>
+          </div>
+          <div className="flex items-end justify-between gap-3">
+            <span className={chip}>{corners[2]}</span>
+            <span className={chip}>{corners[3]}</span>
+          </div>
+        </div>
+      );
+    }
+
+    /* ======================================================================
+       E. Protocol: the sticky stacking archive
+       ====================================================================== */
+    const PROTOCOL_STEPS = [
+      {
+        n: '01',
+        phase: 'Decode',
+        file: 'NRA-01 · Weeks 0–2',
+        title: <>Decode the <Serif>organism.</Serif></>,
+        body: 'Whole-genome sequencing, 142 blood biomarkers, epigenetic age and a full microbiome map. We build the reference model of you: the baseline every future decision is measured against.',
+        specs: ['WGS 30x', '142 biomarkers', 'DEXA + VO2 max'],
+        theme: 'light',
+        Artifact: HelixGear,
+      },
+      {
+        n: '02',
+        phase: 'Surveil',
+        file: 'NRA-02 · Continuous',
+        title: <>Listen at <Serif>cellular</Serif> resolution.</>,
+        body: 'Continuous glucose, HRV, sleep architecture and quarterly bloodwork stream into a model trained to spot drift months before it becomes a diagnosis.',
+        specs: ['CGM 24/7', 'Quarterly panels', 'Drift alerts'],
+        theme: 'moss',
+        Artifact: LaserScan,
+      },
+      {
+        n: '03',
+        phase: 'Adapt',
+        file: 'NRA-03 · Weekly',
+        title: <>A protocol with a <Serif>pulse.</Serif></>,
+        body: 'Your physician-led care team rewrites the regimen as your data moves: nutrition, training load, light, sleep and supplementation. Nothing static. Nothing generic.',
+        specs: ['Weekly revisions', 'Physician-led', 'Lifelong'],
+        theme: 'dark',
+        Artifact: EkgMonitor,
+      },
+    ];
+
+    const CARD_THEMES = {
+      light: { card: 'bg-[#FBFAF6] text-charcoal', muted: 'text-charcoal/60', line: 'border-charcoal/10', chip: 'border-charcoal/10 text-charcoal/65', panel: 'border-charcoal/[0.07] bg-white/70' },
+      moss: { card: 'bg-moss text-cream', muted: 'text-cream/65', line: 'border-cream/15', chip: 'border-cream/20 text-cream/75', panel: 'border-cream/10 bg-black/20' },
+      dark: { card: 'bg-charcoal text-cream', muted: 'text-cream/55', line: 'border-cream/10', chip: 'border-cream/15 text-cream/70', panel: 'border-cream/10 bg-white/[0.025]' },
+    };
+
+    function ProtocolCard({ step, active }) {
+      const t = CARD_THEMES[step.theme];
+      const { Artifact } = step;
+      return (
+        <article
+          className={`stack-inner relative flex h-full w-full max-w-[1480px] flex-col overflow-hidden rounded-[2.5rem] px-6 pb-6 pt-[5.25rem] shadow-[0_-24px_80px_-40px_rgba(26,26,26,0.45)] sm:px-10 sm:pb-10 sm:pt-28 md:rounded-[3rem] lg:p-14 xl:p-16 ${t.card}`}
+          style={{ willChange: 'transform, filter, opacity' }}
+        >
+          <header className={`flex items-center justify-between gap-4 border-b pb-5 font-mono text-[10.5px] uppercase tracking-[0.24em] ${t.line} ${t.muted}`}>
+            <span className="flex items-center gap-3">
+              <span className="text-clay">Phase {step.n}</span>
+              <span className="hidden sm:inline">/ 03 · {step.phase}</span>
+            </span>
+            <span className="truncate">{step.file}</span>
+          </header>
+          <div className="grid min-h-0 flex-1 grid-rows-[auto_minmax(0,1fr)] gap-6 pt-6 lg:grid-cols-12 lg:grid-rows-1 lg:gap-12 lg:pt-10">
+            <div className="flex flex-col justify-between lg:col-span-6 xl:col-span-5">
+              <div>
+                <span className="hidden font-serif font-normal italic leading-none text-clay sm:block" style={{ fontSize: 'clamp(3.5rem, min(9vw, 13vh), 8.5rem)' }}>
+                  {step.n}
+                </span>
+                <h3 className="font-jakarta font-bold leading-[1.02] tracking-[-0.04em] sm:mt-3" style={{ fontSize: 'clamp(2rem, min(4.6vw, 6.6vh), 4.4rem)' }}>
+                  {step.title}
+                </h3>
+                <p className={`mt-5 max-w-[34rem] text-[15px] leading-relaxed md:text-[17px] ${t.muted}`}>{step.body}</p>
+              </div>
+              <ul className="mt-6 hidden flex-wrap gap-2 sm:flex">
+                {step.specs.map((spec) => (
+                  <li key={spec} className={`rounded-full border px-3.5 py-1.5 font-mono text-[10.5px] uppercase tracking-[0.18em] ${t.chip}`}>{spec}</li>
+                ))}
+              </ul>
+            </div>
+            <div className={`relative min-h-0 overflow-hidden rounded-[2rem] border lg:col-span-6 xl:col-span-7 ${t.panel}`}>
+              <Artifact active={active} />
+            </div>
+          </div>
+        </article>
+      );
+    }
+
+    function Protocol() {
+      const stackRef = useRef(null);
+      const [activeCards, setActiveCards] = useState(() => PROTOCOL_STEPS.map(() => false));
+
+      useLayoutEffect(() => {
+        let alive = true;
+        const ctx = gsap.context(() => {}, stackRef);
+
+        stageReady.then(() => {
+          if (!alive) return;
+          ctx.add(() => {
+            const cards = gsap.utils.toArray('.stack-card');
+            // Offsets are measured on the non-sticky container, so a refresh mid-stack stays correct.
+            const cardHeight = () => cards[0].offsetHeight;
+            cards.forEach((card, i) => {
+              ScrollTrigger.create({
+                trigger: stackRef.current,
+                start: () => `top+=${i * cardHeight()} bottom`,
+                end: () => `top+=${(i + 1) * cardHeight()} top`,
+                invalidateOnRefresh: true,
+                onToggle: (self) => setActiveCards((prev) => {
+                  if (prev[i] === self.isActive) return prev;
+                  const next = prev.slice();
+                  next[i] = self.isActive;
+                  return next;
+                }),
+              });
+              if (i === cards.length - 1) return;
+              // As card i+1 rises over it, card i recedes: scale 0.9, blur 4px, opacity 0.5.
+              gsap.fromTo(
+                card.querySelector('.stack-inner'),
+                { scale: 1, opacity: 1, filter: 'blur(0px)' },
+                {
+                  scale: 0.9,
+                  opacity: 0.5,
+                  filter: 'blur(4px)',
+                  ease: 'none',
+                  scrollTrigger: {
+                    trigger: stackRef.current,
+                    start: () => `top+=${(i + 1) * cardHeight()} bottom`,
+                    end: () => `top+=${(i + 1) * cardHeight()} top`,
+                    scrub: 0.4,
+                    invalidateOnRefresh: true,
+                  },
+                }
+              );
+            });
+          });
+        });
+
+        return () => {
+          alive = false;
+          ctx.revert();
+        };
+      }, []);
+
+      return (
+        <section id="protocol" className="relative">
+          <div className="mx-auto grid max-w-[1360px] gap-10 px-5 pb-16 pt-28 sm:px-8 md:pb-20 md:pt-40 lg:grid-cols-12 lg:items-end lg:px-12">
+            <div className="reveal lg:col-span-7">
+              <Eyebrow index="03">The Protocol</Eyebrow>
+              <h2 className="mt-7 font-jakarta font-bold leading-[0.98] tracking-[-0.045em]" style={{ fontSize: 'clamp(2.6rem, 5.6vw, 5.4rem)' }}>
+                Three phases.<br />One <Serif>living</Serif> system.
+              </h2>
+            </div>
+            <p className="reveal text-[17px] leading-relaxed text-charcoal/60 lg:col-span-4 lg:col-start-9">
+              Every member moves through the same rigorous arc, then loops it for as long as the body keeps changing. Which is to say: indefinitely.
+            </p>
+          </div>
+
+          <div ref={stackRef} className="relative">
+            {PROTOCOL_STEPS.map((step, i) => (
+              <div key={step.n} className="stack-card sticky top-0 flex items-center justify-center p-3 sm:p-4 md:p-6" style={{ zIndex: i + 1 }}>
+                <ProtocolCard step={step} active={activeCards[i]} />
+              </div>
+            ))}
+          </div>
+        </section>
+      );
+    }
+
+    /* ======================================================================
+       F. Membership
+       ====================================================================== */
+    const TIERS = [
+      {
+        name: 'Foundation',
+        blurb: 'The essential annual read of your biology.',
+        price: '149',
+        note: 'Billed annually · HSA/FSA eligible',
+        cta: 'Start with Foundation',
+        features: ['142-biomarker panel, twice yearly', 'Epigenetic age assessment', 'Physician review and 60-min consult', 'Nura app with wearable sync'],
+      },
+      {
+        name: 'Performance',
+        badge: 'Most prescribed',
+        featured: true,
+        blurb: 'Continuous optimization for high-output lives.',
+        price: '390',
+        note: 'Billed annually · HSA/FSA eligible',
+        cta: 'Begin Performance',
+        features: ['Everything in Foundation', 'Quarterly panels and CGM program', 'Whole-genome sequencing', 'Monthly physician sessions', 'Adaptive regimen, revised weekly'],
+      },
+      {
+        name: 'Longevity',
+        blurb: 'Concierge medicine with no ceiling.',
+        price: '1,150',
+        note: 'Billed annually · By application',
+        cta: 'Apply for Longevity',
+        features: ['Everything in Performance', 'Annual full-body MRI and DEXA', 'Direct physician line, 24/7', 'In-home phlebotomy', 'Compounded supplementation'],
+      },
+    ];
+
+    function TierCard({ tier }) {
+      const f = tier.featured;
+      return (
+        <article className={`reveal relative flex flex-col rounded-[2.5rem] p-8 sm:p-10 ${f ? 'bg-moss text-cream shadow-[0_50px_100px_-45px_rgba(46,64,54,0.9)] lg:-my-6 lg:py-14' : 'border border-charcoal/[0.08] bg-white/55 text-charcoal'}`}>
+          {f && (
+            <div aria-hidden="true" className="pointer-events-none absolute inset-0 rounded-[2.5rem]" style={{ background: 'radial-gradient(110% 55% at 100% 0%, rgba(204,88,51,0.24), transparent 62%)' }} />
+          )}
+          <div className="relative flex items-center justify-between gap-3">
+            <span className={`font-mono text-[11px] uppercase tracking-[0.28em] ${f ? 'text-cream/70' : 'text-moss/75'}`}>{tier.name}</span>
+            {tier.badge && <span className="rounded-full bg-clay px-3 py-1 font-mono text-[9.5px] uppercase tracking-[0.2em] text-cream">{tier.badge}</span>}
+          </div>
+          <p className={`relative mt-6 font-sans text-[19px] leading-snug tracking-[-0.01em] ${f ? 'text-cream/90' : 'text-charcoal/80'}`}>{tier.blurb}</p>
+          <div className="relative mt-8 flex items-end gap-2">
+            <span className="font-jakarta font-bold leading-none tracking-[-0.05em]" style={{ fontSize: 'clamp(3rem, 4.4vw, 4rem)' }}>
+              <span className="mr-1 align-top text-[0.42em] font-semibold">$</span>{tier.price}
+            </span>
+            <span className={`mb-1.5 font-mono text-[11px] uppercase tracking-[0.18em] ${f ? 'text-cream/55' : 'text-charcoal/45'}`}>/ month</span>
+          </div>
+          <p className={`relative mt-3 font-mono text-[10px] uppercase tracking-[0.2em] ${f ? 'text-cream/45' : 'text-charcoal/40'}`}>{tier.note}</p>
+          <div className="relative mt-8">
+            <MagneticButton href="#intake" variant={f ? 'clay' : 'outline'} full>{tier.cta}</MagneticButton>
+          </div>
+          <div className={`relative my-8 h-px ${f ? 'bg-cream/15' : 'bg-charcoal/10'}`} />
+          <ul className="relative space-y-3.5">
+            {tier.features.map((feat) => (
+              <li key={feat} className={`flex items-start gap-3 text-[15px] leading-snug ${f ? 'text-cream/85' : 'text-charcoal/75'}`}>
+                <span className={`mt-px grid h-5 w-5 shrink-0 place-items-center rounded-full ${f ? 'bg-clay text-cream' : 'bg-moss/10 text-moss'}`}>
+                  <CheckIcon className="h-3 w-3" strokeWidth={2.4} />
+                </span>
+                {feat}
+              </li>
+            ))}
+          </ul>
+        </article>
+      );
+    }
+
+    function Membership() {
+      return (
+        <section id="membership" className="relative px-5 pb-28 pt-28 sm:px-8 md:pb-40 md:pt-40 lg:px-12">
+          <div className="mx-auto max-w-[1360px]">
+            <div className="grid gap-10 lg:grid-cols-12 lg:items-end">
+              <div className="reveal lg:col-span-7">
+                <Eyebrow index="04">Membership</Eyebrow>
+                <h2 className="mt-7 font-jakarta font-bold leading-[0.98] tracking-[-0.045em]" style={{ fontSize: 'clamp(2.6rem, 5.6vw, 5.4rem)' }}>
+                  Membership, measured in <Serif>decades.</Serif>
+                </h2>
+              </div>
+              <p className="reveal text-[17px] leading-relaxed text-charcoal/60 lg:col-span-4 lg:col-start-9">
+                One clinical standard across every tier: physician-led, lab-grade, and built to compound over a lifetime.
+              </p>
+            </div>
+            <div className="mt-16 grid gap-5 md:mt-24 lg:grid-cols-3 lg:items-stretch lg:gap-6">
+              {TIERS.map((tier) => <TierCard key={tier.name} tier={tier} />)}
+            </div>
+            <p className="reveal mt-12 text-center font-mono text-[10.5px] uppercase leading-relaxed tracking-[0.22em] text-charcoal/45">
+              Every membership opens with a 14-day diagnostic window · Cancel before your first draw at no cost
+            </p>
+          </div>
+        </section>
+      );
+    }
+
+    /* ======================================================================
+       F. Footer
+       ====================================================================== */
+    function IntakeForm() {
+      const [email, setEmail] = useState('');
+      const [status, setStatus] = useState('idle');
+
+      const onSubmit = (e) => {
+        e.preventDefault();
+        if (!email || status !== 'idle') return;
+        setStatus('sending');
+        setTimeout(() => setStatus('done'), 1100);
+      };
+
+      return (
+        <form onSubmit={onSubmit} className="rounded-[2rem] border border-cream/10 bg-cream/[0.03] p-2.5 transition-colors duration-300 focus-within:border-cream/25">
+          {status === 'done' ? (
+            <div className="flex items-center gap-4 px-4 py-4" role="status">
+              <span className="grid h-10 w-10 shrink-0 place-items-center rounded-full bg-moss text-cream"><CheckIcon className="h-4 w-4" strokeWidth={2.2} /></span>
+              <p className="text-[15px] leading-snug text-cream/85">Request logged. A Nura clinician will reach out within 48 hours.</p>
+            </div>
+          ) : (
+            <div className="flex flex-col gap-2 sm:flex-row sm:items-center">
+              <label htmlFor="intake-email" className="sr-only">Email address</label>
+              <input
+                id="intake-email"
+                type="email"
+                required
+                autoComplete="email"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                placeholder="you@domain.com"
+                className="min-w-0 flex-1 rounded-full bg-transparent px-5 py-4 font-sans text-[16px] text-cream outline-none placeholder:text-cream/30"
+              />
+              <MagneticButton type="submit" disabled={status === 'sending'}>
+                {status === 'sending' ? 'Transmitting…' : 'Request Invitation'}
+              </MagneticButton>
+            </div>
+          )}
+          <p className="px-4 pb-2 pt-3 font-mono text-[10px] uppercase tracking-[0.2em] text-cream/35">Encrypted intake · Reviewed by a physician · No spam</p>
+        </form>
+      );
+    }
+
+    function StatusPill() {
+      return (
+        <div className="inline-flex items-center gap-3 rounded-full border border-cream/10 bg-cream/[0.04] py-2 pl-3 pr-4 font-mono text-[10.5px] uppercase tracking-[0.2em] text-cream/75">
+          <PulseDot color="bg-[#57D28A]" />
+          System Operational
+          <span className="text-cream/30">99.99% · 90d</span>
+        </div>
+      );
+    }
+
+    function LabClock() {
+      const [now, setNow] = useState(() => new Date());
+      useEffect(() => {
+        const id = setInterval(() => setNow(new Date()), 1000);
+        return () => clearInterval(id);
+      }, []);
+      return <span className="tabular-nums">Lab time {now.toISOString().slice(11, 19)} UTC</span>;
+    }
+
+    const FOOTER_COLUMNS = [
+      { title: 'Platform', links: ['Protocol', 'Diagnostics', 'Membership', 'Clinics'] },
+      { title: 'Science', links: ['Research', 'Biomarker Library', 'Advisory Board', 'Publications'] },
+      { title: 'Company', links: ['About', 'Careers', 'Press', 'Contact'] },
+    ];
+
+    function Footer() {
+      return (
+        <footer id="intake" className="relative mt-8 overflow-hidden rounded-t-[4rem] bg-charcoal text-cream">
+          <div aria-hidden="true" className="pointer-events-none absolute -right-48 -top-48 h-[40rem] w-[40rem] rounded-full" style={{ background: 'radial-gradient(circle, rgba(46,64,54,0.6), transparent 65%)' }} />
+          <div className="relative mx-auto max-w-[1360px] px-6 pt-20 sm:px-10 md:pt-28 lg:px-16">
+            <div className="grid gap-12 lg:grid-cols-12 lg:items-end">
+              <div className="reveal lg:col-span-7">
+                <Eyebrow index="05" tone="dark">Intake</Eyebrow>
+                <h2 className="mt-7 font-jakarta font-bold leading-[0.98] tracking-[-0.045em]" style={{ fontSize: 'clamp(2.5rem, 5.2vw, 5rem)' }}>
+                  Your biology is already <Serif><span className="text-clay">speaking</span>.</Serif><br />Start listening.
+                </h2>
+              </div>
+              <div className="reveal lg:col-span-5">
+                <IntakeForm />
+              </div>
+            </div>
+
+            <div className="mt-20 grid gap-12 border-t border-cream/10 pt-14 sm:grid-cols-3 md:mt-28 lg:grid-cols-12">
+              <div className="sm:col-span-3 lg:col-span-6">
+                <a href="#top" className="inline-flex items-center gap-3" aria-label="Nura Health, back to top">
+                  <LogoMark className="h-8 w-8" />
+                  <span className="font-jakarta text-2xl font-bold tracking-[-0.04em]">Nura</span>
+                  <span className="font-mono text-[10px] uppercase tracking-[0.3em] text-cream/50">Health</span>
+                </a>
+                <p className="mt-5 max-w-sm text-[15px] leading-relaxed text-cream/50">
+                  Precision longevity medicine, built on continuous biological telemetry and physician judgment.
+                </p>
+                <div className="mt-8"><StatusPill /></div>
+              </div>
+              {FOOTER_COLUMNS.map((col) => (
+                <nav key={col.title} aria-label={col.title} className="lg:col-span-2">
+                  <p className="font-mono text-[10.5px] uppercase tracking-[0.26em] text-cream/35">{col.title}</p>
+                  <ul className="mt-5 space-y-3">
+                    {col.links.map((label) => (
+                      <li key={label}>
+                        <a href="#" className="nav-link relative text-[15px] text-cream/70 transition-colors duration-300 hover:text-cream">{label}</a>
+                      </li>
+                    ))}
+                  </ul>
+                </nav>
+              ))}
+            </div>
+
+            <div className="mt-16 flex flex-col gap-5 border-t border-cream/10 py-8 font-mono text-[10.5px] uppercase tracking-[0.2em] text-cream/40 md:flex-row md:items-center md:justify-between">
+              <span>© {new Date().getFullYear()} Nura Health, Inc.</span>
+              <nav aria-label="Legal" className="flex flex-wrap gap-x-6 gap-y-2">
+                {['Privacy', 'Terms', 'HIPAA Notice', 'Accessibility'].map((label) => (
+                  <a key={label} href="#" className="transition-colors duration-300 hover:text-cream">{label}</a>
+                ))}
+              </nav>
+              <LabClock />
+            </div>
+          </div>
+          <div
+            aria-hidden="true"
+            className="pointer-events-none select-none text-center font-serif font-normal italic leading-[0.72] tracking-[-0.04em] text-cream/[0.05]"
+            style={{ fontSize: 'clamp(8rem, 30vw, 30rem)', marginBottom: '-0.1em' }}
+          >
+            Nura
+          </div>
+        </footer>
+      );
+    }
+
+    /* ======================================================================
+       App
+       ====================================================================== */
+    function App() {
+      // In-page anchors glide instead of jumping (CSS smooth scrolling fights ScrollTrigger).
+      useEffect(() => {
+        const onClick = (e) => {
+          const link = e.target.closest && e.target.closest('a[href^="#"]');
+          if (!link) return;
+          const hash = link.getAttribute('href');
+          if (hash === '#') {
+            e.preventDefault();
+            return;
+          }
+          const target = document.querySelector(hash);
+          if (!target) return;
+          e.preventDefault();
+          const top = hash === '#top' ? 0 : target.getBoundingClientRect().top + window.scrollY;
+          window.scrollTo({ top, behavior: REDUCED_MOTION ? 'auto' : 'smooth' });
+          if (hash === '#intake') {
+            const input = document.getElementById('intake-email');
+            if (input) setTimeout(() => input.focus({ preventScroll: true }), 1000);
+          }
+        };
+        document.addEventListener('click', onClick);
+        return () => document.removeEventListener('click', onClick);
+      }, []);
+
+      // Section reveals, then one refresh once every child has registered its triggers.
+      useLayoutEffect(() => {
+        let alive = true;
+        const ctx = gsap.context(() => {
+          if (!REDUCED_MOTION) gsap.set('.reveal', { opacity: 0, y: 56 });
+        });
+        stageReady.then(() => {
+          if (!alive) return;
+          ctx.add(() => {
+            if (REDUCED_MOTION) return;
+            ScrollTrigger.batch('.reveal', {
+              start: 'top 88%',
+              once: true,
+              onEnter: (batch) => gsap.to(batch, { opacity: 1, y: 0, duration: 1.3, ease: 'expo.out', stagger: 0.12, overwrite: true }),
+            });
+          });
+          ScrollTrigger.refresh();
+        });
+        const onLoad = () => ScrollTrigger.refresh();
+        window.addEventListener('load', onLoad);
+        // Late webfonts reflow the page; re-measure every trigger once they settle.
+        fontSheetReady
+          .then(() => (document.fonts ? document.fonts.ready : null))
+          .then(() => { if (alive) ScrollTrigger.refresh(); });
+        return () => {
+          alive = false;
+          window.removeEventListener('load', onLoad);
+          ctx.revert();
+        };
+      }, []);
+
+      return (
+        <div className="page">
+          <Navbar />
+          <main>
+            <Hero />
+            <BiomarkerTicker />
+            <Features />
+            <Philosophy />
+            <Protocol />
+            <Membership />
+          </main>
+          <Footer />
+        </div>
+      );
+    }
+
+    ReactDOM.createRoot(document.getElementById('root')).render(<App />);
+  </script>
+</body>
+</html>
