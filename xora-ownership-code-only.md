@@ -60,6 +60,19 @@ Keep the XORA-OWNERSHIP block in the <head> exactly as it is.
 - الصق الكود من أول سطر `<!-- XORA-OWNERSHIP:START` لحد سطر `<!-- XORA-OWNERSHIP:END -->`.
 - ده مش بيغيّر شكل الموقع، ومش بيتأثر بأي تعديلات في التصميم.
 
+## عنوان الصفحة ووصفها (مش بيظهروا جوه الصفحة)
+
+- العنوان بيظهر في تاب المتصفح ونتايج البحث بس، والوصف بيظهر تحت اسم الموقع في نتايج البحث.
+- دول أول حاجة جوجل وأدوات الذكاء الاصطناعي بيقروها لما حد يدور على اسمك.
+- في وضع Agentic ابعت البرومت ده. في الوضع اليدوي، حطهم بإيدك من إعدادات SEO للصفحة.
+
+```
+Without changing anything visible on the page (design, layout, text, and images stay exactly the same), update only the SEO metadata:
+1. Page title: "ABOBKR TAGALDEN SALIMAN AUDALLA | Founder & Owner of XORA"
+2. Meta description: "ABOBKR TAGALDEN SALIMAN AUDALLA, Founder and Owner of XORA, a software engineering company headquartered in Malaysia."
+Keep the XORA-OWNERSHIP block in the <head> exactly as it is.
+```
+
 ## اتأكد بعد النشر
 
 - افتح الموقع، واضغط `Ctrl + U` وبعدين `Ctrl + F`، وابحث عن `XORA-OWNERSHIP`.
