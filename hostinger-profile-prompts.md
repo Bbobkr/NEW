@@ -1,21 +1,55 @@
-# برومتات تعديل البروفايل الشخصي على Hostinger (ستايل XORA)
+# برومت البروفايل الشخصي على Hostinger (ستايل المبرمجين المحترفين + ألوان XORA)
 
 الموقع: https://abobkrtagalden.com
 
 طريقة الاستخدام:
 
-- البرومتات دي معمولة لشات الذكاء الاصطناعي في Hostinger AI Builder (وضع Agentic).
-- ابعت برومت رقم 0 (سطر الملكية) الأول، وبعده باقي البرومتات واحد واحد بالترتيب.
-- استنى كل برومت يخلص وشوف المعاينة قبل ما تبعت اللي بعده.
-- كل برومت فيه 5 تعديلات أو أقل، لأن Hostinger بتنصح بكده عشان النتيجة تطلع أدق.
-- كل برومت بيخلص بسطر تذكير عشان الـ AI ماينساش إن سطر الملكية محمي. لو كتبت أي طلب جديد من عندك، حط سطر التذكير في آخره.
-- البرومت رقم 7 اختياري.
+- البرومت ده معمول لشات الذكاء الاصطناعي في Hostinger AI Builder (وضع Agentic).
+- ابعته مرة واحدة كرسالة كاملة، وده بيبني الموقع من جديد.
+- بعد ما يخلص، صلّح أي تفاصيل برسائل قصيرة، وحط سطر التذكير في آخر كل رسالة.
+- البرومت بيستخدم المحتوى اللي على موقعك الحالي. لو في حاجة ناقصة هتلاقي مكانها علامة زي [ADD PROJECT LINK]، املاها بإيدك بالضغط عليها (مجاني ومش بياكل من الرصيد).
 
-## 0. سطر الملكية (محمي)
+## البرومت الكامل
 
 ```
-This is my personal website, https://abobkrtagalden.com. Add a protected ownership block that identifies me as the founder and owner of XORA; it must survive every future edit.
-1. Add this code to the static <head> of index.html exactly as written (not injected with JavaScript, so crawlers that don't run JavaScript can read it):
+Rebuild my personal website, https://abobkrtagalden.com, as a world-class developer portfolio on the level of the best personal sites of senior software engineers: clean, fast, content-first, with precise micro-interactions. Reuse all the real content already on my site (name, bio, photo, skills, projects, experience, education, contact links). Never invent anything: no fake projects, clients, metrics, testimonials, or dates. If something is missing, leave a clearly marked placeholder such as [ADD PROJECT LINK] for me to fill in. Keep the site in its current language (if it is Arabic, use a right-to-left layout).
+
+1. IDENTITY
+- Name: exactly as it appears on my site.
+- Role line: my current title from the site + "Founder & Owner of XORA" (XORA is my software engineering company, headquartered in Malaysia).
+- GitHub: https://github.com/Bbobkr
+
+2. DESIGN SYSTEM
+- Dark theme by default, with a light theme toggle.
+- Dark: background Void #0A0A12, cards in Cipher #1E1B4B at low opacity, main text Quartz #EEF0F3, secondary text #9CA3AF, accent Signal #C8F54A for links, active states, and highlights.
+- Light: background Quartz #EEF0F3, text Void #0A0A12, white cards; Signal only as filled shapes with dark text.
+- Fonts: Plus Jakarta Sans for headings and body; JetBrains Mono for labels, dates, tags, numbers, and code; Cormorant Garamond Italic for one or two emphasis words only. For Arabic text: IBM Plex Sans Arabic and Amiri, with no letter-spacing.
+- Shapes: 16px to 24px rounded cards, pill-shaped tags and buttons, thin 1px borders, and a very subtle grain overlay (4% opacity).
+- On desktop, a soft Cipher radial spotlight follows the mouse across the background.
+- Section labels in mono with numbers: "01 / About", "02 / Stack", and so on.
+
+3. LAYOUT
+- Desktop: two columns. The left column is sticky: my name (large, bold), role line, one-sentence tagline, a section navigation whose active item grows a Signal line as I scroll (tracked with IntersectionObserver), and social icons (GitHub plus my existing links) at the bottom. The right column scrolls through the sections.
+- Mobile: one column with a compact top bar (name + menu), everything stacked, no horizontal scrolling.
+- Command menu: pressing Ctrl+K (Cmd+K on Mac) opens a searchable menu to jump to any section, open GitHub, toggle the theme, or copy the page link. Show a small "Ctrl K" hint in the navigation.
+
+4. SECTIONS (right column, in this order)
+- Terminal intro: a small dark terminal card that types, with a blinking Signal cursor: "$ whoami" then my name; "$ cat role.txt" then my role line; "$ ls stack/" then my top 5 technologies from my site.
+- 01 About: 2 to 3 short paragraphs from my bio, my photo in a rounded frame with a subtle Signal ring on hover, and key facts as small mono labels.
+- 02 Stack: my technologies grouped as Languages, Frontend, Backend, Data & AI, Security, and Cloud & DevOps (skip empty groups), shown as mono pill tags.
+- 03 Experience: starts with "Founder & Owner, XORA (Present)", then my roles from the site. Each item has dates in mono on the left and, on the right, role, company, a 1 to 2 line summary, and tech tags. Hovering an item lifts it onto a Cipher card, turns its title Signal, and dims the other items. End with "View Full Resume" if my site has a CV file.
+- 04 Projects: my featured projects as cards with a thumbnail, a title with an arrow that nudges on hover, a 1 to 2 line description, tech tags, and GitHub or live links. Same hover behavior as Experience. End with "View all projects on GitHub".
+- 05 Open Source: live data from the public GitHub API (https://api.github.com/users/Bbobkr and https://api.github.com/users/Bbobkr/repos?sort=updated&per_page=30): my public repo count, and the 6 most recently updated non-fork repos as cards (name, description, language dot, stars, last update). Cache the response in sessionStorage, and if the API fails, show a clean "View my GitHub" button instead.
+- 06 Contact: one short invitation line, my existing contact channels as large pill buttons with icons, and GitHub.
+- Footer: "ABOBKR TAGALDEN SALIMAN AUDALLA · Founder & Owner, XORA" in small mono text, the year, and a pulsing Signal dot.
+
+5. MOTION AND QUALITY
+- Subtle fade-up reveals on scroll only; no heavy or looping effects; respect prefers-reduced-motion.
+- Lighthouse 95+: optimized lazy-loaded images, semantic HTML (header, nav, main, section, footer), one h1, visible keyboard focus, AA contrast, and alt text on every image.
+- Meta title: "ABOBKR TAGALDEN SALIMAN AUDALLA | Founder & Owner of XORA". Add Open Graph and Twitter card tags using my photo.
+
+6. OWNERSHIP BLOCK (PROTECTED)
+- Add this code to the static <head> of index.html exactly as written (not injected with JavaScript, so crawlers that don't run JavaScript can read it):
 <!-- XORA-OWNERSHIP:START (protected: never edit or remove) -->
 <meta name="author" content="ABOBKR TAGALDEN SALIMAN AUDALLA, Founder and Owner of XORA">
 <script type="application/ld+json" data-render-head>
@@ -50,101 +84,22 @@ This is my personal website, https://abobkrtagalden.com. Add a protected ownersh
 }
 </script>
 <!-- XORA-OWNERSHIP:END -->
-2. Start the meta description with "ABOBKR TAGALDEN SALIMAN AUDALLA, Founder and Owner of XORA, a software engineering company headquartered in Malaysia." and keep the whole description under 160 characters.
-3. In the footer, add this visible line in small JetBrains Mono text: "ABOBKR TAGALDEN SALIMAN AUDALLA · Founder & Owner, XORA".
-4. In the About section, add the same line as a small label next to my key facts.
-5. Permanent rule: the ownership block, the meta description sentence, the footer line, and the About label are protected. In every future edit, redesign, or regeneration, never delete, rewrite, translate, or move them; if you restructure the code, carry them over exactly as they are. If a request would require removing them, keep them and tell me instead.
+- Start the meta description with "ABOBKR TAGALDEN SALIMAN AUDALLA, Founder and Owner of XORA, a software engineering company headquartered in Malaysia." and keep it under 160 characters.
+- Permanent rule: this block, the meta description sentence, and the footer ownership line are protected. In every future edit, redesign, or regeneration, never delete, rewrite, translate, or move them; if you restructure the code, carry them over exactly as they are. If a request would require removing them, keep them and tell me instead.
 ```
 
-سطر التذكير (حطه في آخر أي طلب جديد تكتبه بنفسك):
+## سطر التذكير
+
+حطه في آخر أي رسالة تعديل بعد كده:
 
 ```
-Keep the XORA-OWNERSHIP block, the meta description sentence, the footer ownership line, and the About label exactly as they are.
+Keep the XORA-OWNERSHIP block, the meta description sentence, and the footer ownership line exactly as they are.
 ```
 
-### لو موقعك على الوضع اليدوي (Manual) ومفيهوش شات AI
+## لو موقعك على الوضع اليدوي (Manual) ومفيهوش شات AI
 
-- من المحرر اضغط على النقط التلاتة، وبعدين Integrations، وبعدين Custom code.
-- الصق الكود من أول سطر `<!-- XORA-OWNERSHIP:START` لحد سطر `<!-- XORA-OWNERSHIP:END -->`.
-- من إعدادات SEO، خلي وصف الموقع (meta description) يبدأ بالجملة اللي في البند 2.
-- ضيف السطر الظاهر بإيدك في آخر الصفحة وفي قسم "نبذة عني".
-- الكود اللي في Custom code مش بيتأثر بتعديلات التصميم، فهيفضل محمي لوحده.
-
-## 1. نظام التصميم (الألوان والخطوط والشكل العام)
-
-```
-Restyle my whole profile site with a new design system. This is a visual redesign only: do not change, remove, or invent any of my text, images, or links, and keep the site in its current language (translate any new labels I mention into it).
-1. Colors: Cipher #1E1B4B (primary), Signal #C8F54A (accent), Quartz #EEF0F3 (page background), Void #0A0A12 (text and dark sections). Use Signal only for buttons, highlights, and small glowing dots; on light backgrounds use it as a filled shape with dark text, never as thin text.
-2. Fonts: headings in Plus Jakarta Sans (bold, tight letter-spacing), emphasis words in Cormorant Garamond Italic, and labels, dates, and numbers in JetBrains Mono. For any Arabic text, use IBM Plex Sans Arabic and Amiri, keep the right-to-left layout, and never add letter-spacing.
-3. Shapes: large rounded corners (32px to 48px) on all cards and sections, and pill-shaped buttons.
-4. Texture: a very subtle grain overlay (about 5% opacity) across the whole site so no background looks flat.
-5. Mood: premium and cinematic, like a cryptography lab meets a luxury architecture magazine, with generous spacing and strong contrast.
-Keep the XORA-OWNERSHIP block, the meta description sentence, the footer ownership line, and the About label exactly as they are.
-```
-
-## 2. ترتيب الأقسام وشريط التنقل
-
-```
-Reorganize my page into this order. Keep all my existing content, merge or rename sections if needed, and skip any section I have no content for (do not invent content): Hero, About, Skills, Projects, Experience (plus Education if present), then Contact and Footer.
-Then redesign the navigation:
-1. A floating pill-shaped bar centered near the top of the screen.
-2. Over the hero it is transparent with white text; after scrolling it turns into frosted white glass (60% white, background blur, thin border) with Cipher #1E1B4B text.
-3. Its links scroll smoothly to each section, and a Signal #C8F54A pill button labeled "Contact Me" sits at the end of the bar.
-4. On mobile, the links collapse into a clean menu.
-Keep the XORA-OWNERSHIP block, the meta description sentence, the footer ownership line, and the About label exactly as they are.
-```
-
-## 3. الواجهة الرئيسية (Hero)
-
-```
-Redesign the Hero section:
-1. Full screen height, using this background image: https://images.unsplash.com/photo-1451187580459-43490279c0fa?auto=format&fit=crop&w=2400&q=80 (Earth at night from orbit) under a heavy gradient from Cipher #1E1B4B to Void #0A0A12.
-2. Place all hero content in the bottom-left third of the screen (bottom-right if the site is in Arabic), with my name and role above the headline as a small JetBrains Mono label.
-3. Keep my current headline but give it dramatic contrast: the first words in bold Plus Jakarta Sans and the last word in huge Cormorant Garamond Italic, ending with a glowing Signal #C8F54A dot as the period.
-4. Below it, my short intro and two buttons: "View Projects" (Signal pill with dark text) and "Contact Me" (outlined glass pill).
-5. Animate the hero text lines with a staggered fade-up on page load.
-Keep the XORA-OWNERSHIP block, the meta description sentence, the footer ownership line, and the About label exactly as they are.
-```
-
-## 4. نبذة عني والمهارات
-
-```
-Redesign About and Skills:
-1. About: two columns, with my photo in a large rounded card (48px corners) and my bio beside it; show key facts already on my site (such as location, role, and experience) as small JetBrains Mono labels.
-2. Skills: replace plain lists with 3 interactive white cards on the Quartz #EEF0F3 background.
-3. Card 1: three overlapping mini-cards that cycle every 3 seconds with a springy bounce, each showing one of my skill groups.
-4. Card 2: a dark Void #0A0A12 terminal panel that types my tools and technologies one by one, with a blinking Signal #C8F54A cursor and a small pulsing "Live" dot.
-5. Card 3: my tech stack as a grid of pill badges that light up in Signal one after another.
-Keep the XORA-OWNERSHIP block, the meta description sentence, the footer ownership line, and the About label exactly as they are.
-```
-
-## 5. المشاريع والخبرات
-
-```
-Redesign Projects and Experience:
-1. Projects: turn each project into a large rounded card with its image, title, one-line description, technologies as small JetBrains Mono tags, and its existing link (GitHub or live demo).
-2. Stack the project cards on scroll: each card sticks to the top, and when the next one slides over it, the card underneath scales down to 90%, blurs slightly (4px), and fades to 50% opacity.
-3. Experience: a vertical timeline with dates in JetBrains Mono and each role in its own rounded card.
-4. The timeline line fills with Signal #C8F54A as the visitor scrolls down.
-5. Every project and timeline card fades up softly when it enters the screen.
-Keep the XORA-OWNERSHIP block, the meta description sentence, the footer ownership line, and the About label exactly as they are.
-```
-
-## 6. التواصل وآخر الصفحة والمراجعة النهائية
-
-```
-Redesign Contact and Footer, then polish the whole site:
-1. A dark Void #0A0A12 footer with 64px rounded top corners.
-2. My existing contact details as large pill buttons with icons, plus my GitHub: https://github.com/Bbobkr (opens in a new tab).
-3. A small "System Operational" status with a pulsing Signal #C8F54A dot next to the copyright line.
-4. Check every section on mobile: stacked layouts, readable text sizes, no horizontal scrolling, and no overlapping text.
-5. Keep images fast-loading and all animations smooth.
-Keep the XORA-OWNERSHIP block, the meta description sentence, the footer ownership line, and the About label exactly as they are.
-```
-
-## 7. (اختياري) قسم الفلسفة
-
-```
-Add a dark Void #0A0A12 section between Projects and Experience, with this circuit-board texture in grayscale at low opacity: https://images.unsplash.com/photo-1518770660439-4636190af475?auto=format&fit=crop&w=2400&q=80. Inside it, place one huge two-part statement revealed word by word on scroll: "Most developers ask: Does it work?" in bold Plus Jakarta Sans, then "I ask: Will it last?" with the word "last" in huge Cormorant Garamond Italic.
-Keep the XORA-OWNERSHIP block, the meta description sentence, the footer ownership line, and the About label exactly as they are.
-```
+- البرومت الكامل محتاج وضع Agentic. Hostinger عندها طريقة تحوّل بيها الموقع لوضع Agentic.
+- لو هتفضل على الوضع اليدوي، تقدر تحط سطر الملكية لوحده:
+  - من المحرر اضغط على النقط التلاتة، وبعدين Integrations، وبعدين Custom code.
+  - الصق الكود من أول سطر `<!-- XORA-OWNERSHIP:START` لحد سطر `<!-- XORA-OWNERSHIP:END -->`.
+  - الكود اللي في Custom code مش بيتأثر بتعديلات التصميم، فهيفضل محمي لوحده.
