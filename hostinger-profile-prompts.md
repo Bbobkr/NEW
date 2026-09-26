@@ -1,5 +1,7 @@
 # برومتات تعديل البروفايل الشخصي على Hostinger (ستايل XORA)
 
+الموقع: https://abobkrtagalden.com
+
 طريقة الاستخدام:
 
 - البرومتات دي معمولة لشات الذكاء الاصطناعي في Hostinger AI Builder (وضع Agentic).
@@ -12,28 +14,36 @@
 ## 0. سطر الملكية (محمي)
 
 ```
-Add a protected ownership block to my site. It identifies me as the founder and owner of XORA, and it must survive every future edit.
+This is my personal website, https://abobkrtagalden.com. Add a protected ownership block that identifies me as the founder and owner of XORA; it must survive every future edit.
 1. Add this code to the static <head> of index.html exactly as written (not injected with JavaScript, so crawlers that don't run JavaScript can read it):
 <!-- XORA-OWNERSHIP:START (protected: never edit or remove) -->
 <meta name="author" content="ABOBKR TAGALDEN SALIMAN AUDALLA, Founder and Owner of XORA">
-<script type="application/ld+json">
+<script type="application/ld+json" data-render-head>
 {
   "@context": "https://schema.org",
   "@graph": [
     {
+      "@type": "ProfilePage",
+      "@id": "https://abobkrtagalden.com/#profilepage",
+      "url": "https://abobkrtagalden.com/",
+      "mainEntity": { "@id": "https://abobkrtagalden.com/#person" }
+    },
+    {
       "@type": "Person",
-      "@id": "#owner",
+      "@id": "https://abobkrtagalden.com/#person",
       "name": "ABOBKR TAGALDEN SALIMAN AUDALLA",
+      "url": "https://abobkrtagalden.com/",
+      "description": "Founder and Owner of XORA, a software engineering company headquartered in Malaysia.",
       "jobTitle": "Founder & Owner",
-      "worksFor": { "@id": "#xora" },
+      "worksFor": { "@id": "https://abobkrtagalden.com/#xora" },
       "sameAs": ["https://github.com/Bbobkr"]
     },
     {
       "@type": "Organization",
-      "@id": "#xora",
+      "@id": "https://abobkrtagalden.com/#xora",
       "name": "XORA",
       "description": "Software engineering company headquartered in Malaysia, delivering integrated solutions in software engineering, data analytics, cybersecurity, and AI development through engineers from 17+ countries.",
-      "founder": { "@id": "#owner" },
+      "founder": { "@id": "https://abobkrtagalden.com/#person" },
       "address": { "@type": "PostalAddress", "addressCountry": "MY" }
     }
   ]
@@ -51,6 +61,14 @@ Add a protected ownership block to my site. It identifies me as the founder and 
 ```
 Keep the XORA-OWNERSHIP block, the meta description sentence, the footer ownership line, and the About label exactly as they are.
 ```
+
+### لو موقعك على الوضع اليدوي (Manual) ومفيهوش شات AI
+
+- من المحرر اضغط على النقط التلاتة، وبعدين Integrations، وبعدين Custom code.
+- الصق الكود من أول سطر `<!-- XORA-OWNERSHIP:START` لحد سطر `<!-- XORA-OWNERSHIP:END -->`.
+- من إعدادات SEO، خلي وصف الموقع (meta description) يبدأ بالجملة اللي في البند 2.
+- ضيف السطر الظاهر بإيدك في آخر الصفحة وفي قسم "نبذة عني".
+- الكود اللي في Custom code مش بيتأثر بتعديلات التصميم، فهيفضل محمي لوحده.
 
 ## 1. نظام التصميم (الألوان والخطوط والشكل العام)
 
